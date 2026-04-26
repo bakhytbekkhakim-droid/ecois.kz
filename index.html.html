@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Экологиялық із — Сіздің планетаға әсеріңіз</title>
+  <style>
+    :root{--primary:#2e7d32;--primary-dark:#1b5e20;--secondary:#4caf50;--accent:#81c784;--light:#f1f8e9;--dark:#1b3a1b;--warning:#ff9800;--danger:#f44336;--info:#2196f3;--text:#212121;--text-light:#757575;--white:#fff;--shadow:0 4px 12px rgba(0,0,0,.1);--shadow-lg:0 8px 24px rgba(0,0,0,.15);--radius:12px;--transition:all .3s ease}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;color:var(--text);background:linear-gradient(135deg,#e8f5e9 0%,#c8e6c9 100%);min-height:100vh}
+    nav{background:var(--white);box-shadow:var(--shadow);position:sticky;top:0;z-index:100;padding:1rem 2rem}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+    .logo{font-size:1.5rem;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:.5rem}
+    .nav-links{display:flex;gap:1rem;list-style:none;flex-wrap:wrap}
+    .nav-links a{text-decoration:none;color:var(--text);font-weight:500;padding:.5rem 1rem;border-radius:var(--radius);transition:var(--transition)}
+    .nav-links a:hover,.nav-links a.active{background:var(--light);color:var(--primary)}
+    .hero{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:var(--white);padding:4rem 2rem;text-align:center}
+    .hero-content{max-width:900px;margin:0 auto}
+    .hero h1{font-size:2.5rem;margin-bottom:1rem;line-height:1.3}
+    .hero p{font-size:1.2rem;margin-bottom:1.5rem;opacity:.95}
+    .quote{font-style:italic;border-left:4px solid var(--accent);padding:1rem 1.5rem;margin:1.5rem 0;background:rgba(255,255,255,.1);border-radius:0 var(--radius) var(--radius) 0}
+    .earth-needed{background:rgba(255,255,255,.15);padding:1rem 1.5rem;border-radius:var(--radius);margin-top:1rem;font-size:1.1rem}
+    .earth-needed strong{color:#ffeb3b;font-size:1.5rem}
+    .overshoot-date{background:linear-gradient(135deg,#ff5722 0%,#e64a19 100%);color:white;padding:1rem 1.5rem;border-radius:var(--radius);margin-top:1rem;font-weight:500}
+    .overshoot-date .date{font-size:1.8rem;font-weight:700;display:block;margin:.5rem 0}
+    .counter-badge{background:rgba(255,255,255,.2);display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.2rem;border-radius:50px;margin-top:1rem;font-size:.95rem;backdrop-filter:blur(10px);flex-wrap:wrap;justify-content:center}
+    .counter-badge .number{font-weight:700;font-size:1.2rem;color:#ffe082}
+    .counter-badge .number.pulse{animation:pulseNum .5s ease}
+    @keyframes pulseNum{0%{transform:scale(1)}50%{transform:scale(1.3);color:#fff}100%{transform:scale(1)}}
+    .stats-bar{background:var(--white);border-radius:var(--radius);padding:1rem 2rem;margin:1rem auto 2rem;max-width:1200px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;box-shadow:var(--shadow)}
+    .stat-item{display:flex;align-items:center;gap:.5rem;font-size:.95rem}
+    .stat-item .value{font-weight:700;color:var(--primary);font-size:1.1rem}
+    .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:1200px;margin:-3rem auto 3rem;padding:0 2rem;position:relative;z-index:10}
+    .info-card{background:var(--white);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);transition:var(--transition)}
+    .info-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .info-card h3{color:var(--primary);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+    .info-card ul{padding-left:1.5rem;margin-top:.5rem}
+    .info-card li{margin-bottom:.3rem;font-size:.95rem}
+    .calculator{max-width:900px;margin:2rem auto 4rem;padding:0 2rem}
+    .section-title{text-align:center;color:var(--primary);margin-bottom:2rem;font-size:2rem}
+    .calc-section{background:var(--white);border-radius:var(--radius);padding:2rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+    .calc-section h3{color:var(--primary);margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:2px solid var(--light)}
+    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem}
+    .form-group{display:flex;flex-direction:column;gap:.4rem}
+    .form-group label{font-weight:500;font-size:.95rem;color:var(--text)}
+    .form-group input,.form-group select{padding:.75rem;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;transition:var(--transition)}
+    .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--secondary);box-shadow:0 0 0 3px rgba(76,175,80,.2)}
+    .form-group small{color:var(--text-light);font-size:.85rem}
+    .btn-calculate{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:var(--white);border:none;padding:1rem 2.5rem;font-size:1.1rem;font-weight:600;border-radius:50px;cursor:pointer;display:block;margin:2rem auto 1rem;transition:var(--transition);box-shadow:0 4px 14px rgba(46,125,50,.4)}
+    .btn-calculate:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(46,125,50,.6)}
+    .result-card{background:linear-gradient(135deg,var(--light) 0%,var(--white) 100%);border-radius:var(--radius);padding:2rem;text-align:center;margin:2rem auto;max-width:700px;box-shadow:var(--shadow);display:none}
+    .result-card.show{display:block;animation:fadeIn .5s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .earth-counter{font-size:3rem;font-weight:700;color:var(--primary);margin:1rem 0;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
+    .earth-icon{font-size:2.5rem;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+    .progress-container{margin:1.5rem 0}
+    .progress-bar{height:24px;background:#e0e0e0;border-radius:12px;overflow:hidden;margin-bottom:.5rem}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--secondary),var(--primary));border-radius:12px;transition:width 1s ease;width:0%}
+    .progress-labels{display:flex;justify-content:space-between;font-size:.85rem;color:var(--text-light);flex-wrap:wrap;gap:.25rem}
+    .recommendations{text-align:left;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #ddd}
+    .recommendations h4{color:var(--primary);margin-bottom:.75rem}
+    .recommendations ul{padding-left:1.5rem}
+    .recommendations li{margin-bottom:.4rem;font-size:.95rem}
+    .components-breakdown{background:var(--white);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0;box-shadow:var(--shadow)}
+    .components-breakdown h4{color:var(--primary);margin-bottom:1rem;text-align:center}
+    .component-item{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;padding:.5rem;border-radius:8px;background:var(--light)}
+    .component-bar{flex:1;height:20px;background:#e0e0e0;border-radius:10px;overflow:hidden}
+    .component-fill{height:100%;border-radius:10px;transition:width .8s ease}
+    .component-label{min-width:100px;font-weight:500;font-size:.9rem}
+    .component-percent{min-width:50px;text-align:right;font-weight:600;font-size:.9rem}
+    .carbon{background:#f44336}.cropland{background:#8bc34a}.forest{background:#4caf50}.grazing{background:#cddc39}.fishing{background:#2196f3}.builtup{background:#9e9e9e}
+    .country-section{max-width:1200px;margin:3rem auto;padding:0 2rem}
+    .search-controls{background:var(--white);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+    .search-controls input,.search-controls select{padding:.75rem;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;min-width:200px}
+    .search-controls input{flex:1;min-width:250px}
+    .country-table{width:100%;border-collapse:collapse;background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);font-size:.95rem}
+    .country-table th,.country-table td{padding:1rem;text-align:left;border-bottom:1px solid #eee}
+    .country-table th{background:var(--primary);color:var(--white);font-weight:600;cursor:pointer}
+    .country-table th:hover{background:var(--primary-dark)}
+    .country-table tr:hover{background:var(--light)}
+    .country-table .deficit{border-left:4px solid var(--danger)}
+    .country-table .reserve{border-left:4px solid var(--secondary)}
+    .country-table .highlight{background:#e3f2fd!important;font-weight:600}
+    .pagination{display:flex;justify-content:center;gap:.5rem;margin-top:1rem}
+    .pagination button{padding:.5rem 1rem;border:none;background:var(--white);border-radius:8px;cursor:pointer;transition:var(--transition);box-shadow:var(--shadow)}
+    .pagination button:hover,.pagination button.active{background:var(--primary);color:var(--white)}
+    .top-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin:2rem 0}
+    .top-card{background:var(--white);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);border-top:4px solid var(--secondary)}
+    .top-card.deficit{border-top-color:var(--danger)}
+    .top-card h4{color:var(--primary);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+    .top-card .rank{font-size:1.5rem;font-weight:700;color:var(--primary)}
+    .top-card .country-name{font-weight:600;margin:.5rem 0}
+    .top-card .metric{font-size:.9rem;color:var(--text-light)}
+    .kz-profile{background:linear-gradient(135deg,#00afca 0%,#0072ce 100%);color:var(--white);border-radius:var(--radius);padding:2rem;margin:2rem 0}
+    .kz-profile h3{margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+    .kz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1rem 0}
+    .kz-stat{background:rgba(255,255,255,.15);padding:1rem;border-radius:8px;text-align:center}
+    .kz-stat .value{font-size:1.5rem;font-weight:700}
+    .kz-stat .label{font-size:.9rem;opacity:.9}
+    .kz-actions{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+    .btn-link{display:inline-block;background:var(--white);color:#0072ce;padding:.6rem 1.2rem;border-radius:8px;text-decoration:none;font-weight:600;transition:var(--transition)}
+    .btn-link:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+    .btn-outline{background:transparent;border:2px solid var(--white);color:var(--white)}
+    .btn-outline:hover{background:var(--white);color:#0072ce}
+    .success-story{background:linear-gradient(135deg,#e8f5e9 0%,#c8e6c9 100%);border-radius:var(--radius);padding:1.5rem;margin:2rem 0;border-left:4px solid var(--secondary)}
+    .success-story h4{color:var(--primary);margin-bottom:1rem}
+    .success-timeline{display:flex;gap:1rem;margin:1rem 0;flex-wrap:wrap}
+    .timeline-item{flex:1;min-width:150px;background:var(--white);padding:1rem;border-radius:8px;text-align:center;box-shadow:var(--shadow)}
+    .timeline-item .year{font-weight:700;color:var(--primary);font-size:1.2rem}
+    .timeline-item .value{font-size:1.1rem;margin:.5rem 0}
+    .timeline-item .change{font-size:.9rem;color:var(--secondary)}
+    .timeline-item .change.negative{color:var(--danger)}
+    .scientific{max-width:1200px;margin:3rem auto;padding:0 2rem}
+    .formula-box{background:var(--light);border-left:4px solid var(--primary);padding:1.2rem 1.5rem;border-radius:0 var(--radius) var(--radius) 0;margin:1.5rem 0;font-family:monospace;font-size:1rem;overflow-x:auto}
+    .formula-box code{background:var(--white);padding:.2rem .5rem;border-radius:4px}
+    .comparison-tool{background:var(--white);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0;box-shadow:var(--shadow)}
+    .comparison-tool select{width:100%;max-width:400px;padding:.75rem;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;margin-bottom:1rem}
+    #comparisonResult{padding:1rem;background:var(--light);border-radius:8px;min-height:60px;display:flex;align-items:center}
+    .trends-section{background:var(--white);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0;box-shadow:var(--shadow)}
+    .trend-chart{display:flex;align-items:flex-end;gap:4px;height:150px;margin:1rem 0;padding:1rem 0;border-bottom:2px solid #e0e0e0}
+    .trend-bar{flex:1;background:linear-gradient(to top,var(--primary),var(--secondary));border-radius:4px 4px 0 0;min-width:20px;position:relative;transition:height .5s ease}
+    .trend-bar::after{content:attr(data-year);position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);font-size:.75rem;color:var(--text-light)}
+    .trend-legend{display:flex;justify-content:center;gap:1.5rem;margin-top:2rem;flex-wrap:wrap}
+    .legend-item{display:flex;align-items:center;gap:.5rem;font-size:.9rem}
+    .legend-color{width:20px;height:12px;border-radius:3px}
+    .quadrant-section{background:linear-gradient(135deg,#e3f2fd 0%,#bbdefb 100%);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0;border:2px solid var(--info)}
+    .quadrant-chart{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1rem;margin:1rem 0;min-height:200px}
+    .quadrant{padding:1rem;border-radius:8px;text-align:center;font-size:.9rem}
+    .q1{background:#c8e6c9;border:2px solid var(--secondary)}.q2{background:#ffcdd2;border:2px solid var(--danger)}.q3{background:#fff9c4;border:2px solid var(--warning)}.q4{background:#e0e0e0;border:2px solid #9e9e9e}
+    .quadrant-title{font-weight:600;margin-bottom:.5rem}
+    .quadrant-desc{font-size:.85rem;opacity:.9}
+    .sources{background:var(--dark);color:var(--white);padding:2rem;margin-top:3rem}
+    .sources h5{margin-bottom:1rem;color:var(--accent)}
+    .sources ul{list-style:none;padding-left:0}
+    .sources li{margin-bottom:.5rem}
+    .sources a{color:var(--accent);text-decoration:none;transition:var(--transition)}
+    .sources a:hover{color:var(--white);text-decoration:underline}
+    .export-btn{background:var(--info);color:var(--white);border:none;padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-weight:500;transition:var(--transition);display:inline-flex;align-items:center;gap:.5rem}
+    .export-btn:hover{background:#1976d2}
+    .concepts-section{max-width:1200px;margin:2rem auto;padding:0 2rem}
+    .concepts-section .info-card{border-top:4px solid var(--primary);transition:var(--transition)}
+    .concepts-section .info-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .concepts-section code{background:var(--white);padding:.3rem .6rem;border-radius:4px;font-weight:500;display:inline-block;margin:.3rem 0}
+    .balance-card{background:var(--light);padding:1rem;border-radius:8px;margin:.75rem 0}
+    .balance-card.reserve{border-left:4px solid var(--secondary)}
+    .balance-card.deficit{background:#ffebee;border-left:4px solid var(--danger)}
+    .cycle-diagram{background:linear-gradient(135deg,var(--light) 0%,var(--white) 100%);border-radius:var(--radius);padding:1.5rem;margin-top:1.5rem;text-align:center}
+    .cycle-diagram .cycle-items{display:flex;justify-content:center;align-items:center;gap:2rem;flex-wrap:wrap;margin:1rem 0}
+    .cycle-item{text-align:center}
+    .cycle-item .icon{font-size:2rem}
+    .cycle-item .label{font-weight:600;margin:.5rem 0}
+    .cycle-item .desc{font-size:.9rem;color:var(--text-light)}
+    
+    /* ҚОС ТӘУЕКЕЛ стилі */
+    .double-risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1rem 0}
+    .risk-box{padding:1rem;border-radius:8px;text-align:center}
+    .risk-box.resource{background:#ffebee;border:2px solid var(--danger)}
+    .risk-box.income{background:#fff3e0;border:2px solid var(--warning)}
+    .risk-box.combined{background:#e8f5e9;border:2px solid var(--secondary);grid-column:1/-1}
+    .risk-icon{font-size:2rem;margin-bottom:.5rem}
+    .risk-title{font-weight:600;margin:.5rem 0;color:var(--text)}
+    .risk-desc{font-size:.9rem;color:var(--text-light)}
+    
+    /* Белгі-түбір стилі */
+    .symptom-root{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:1.5rem 0}
+    .symptom-box{background:#fff3e0;padding:1.5rem;border-radius:8px;border-left:4px solid var(--warning)}
+    .root-box{background:#e8f5e9;padding:1.5rem;border-radius:8px;border-left:4px solid var(--secondary)}
+    .arrow{font-size:2rem;text-align:center;margin:.5rem 0;color:var(--text-light)}
+    
+    /* Азық-түлік қауіпсіздігі матрицасы */
+    .food-security-matrix{background:var(--white);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0;box-shadow:var(--shadow)}
+    .matrix-grid{display:grid;grid-template-columns:100px 1fr 1fr;grid-template-rows:50px 1fr 1fr;gap:2px;margin:1rem 0}
+    .matrix-cell{display:flex;align-items:center;justify-content:center;padding:.5rem;font-size:.85rem;text-align:center;border-radius:4px}
+    .matrix-header{background:var(--light);font-weight:600}
+    .matrix-green{background:#c8e6c9}.matrix-yellow{background:#fff9c4}.matrix-red{background:#ffcdd2}
+    .matrix-label{font-size:.8rem;color:var(--text-light)}
+    
+    @media(max-width:768px){.hero h1{font-size:2rem}.nav-links{gap:.5rem;justify-content:center}.nav-links a{padding:.4rem .7rem;font-size:.9rem}.form-grid{grid-template-columns:1fr}.earth-counter{font-size:2.5rem}.counter-badge{font-size:.85rem}.quadrant-chart{grid-template-columns:1fr}.trend-chart{height:120px}.search-controls{flex-direction:column;align-items:stretch}.country-table{font-size:.85rem}.country-table th,.country-table td{padding:.75rem .5rem}.cycle-diagram .cycle-items{flex-direction:column;gap:1rem}.matrix-grid{grid-template-columns:80px 1fr 1fr;font-size:.75rem}}
+    .mt-2{margin-top:1rem}.mb-2{margin-bottom:1rem}.text-center{text-align:center}
+  </style>
+</head>
+<body>
+  <nav><div class="nav-container"><div class="logo">🌿 Экологиялық із</div><ul class="nav-links"><li><a href="#home" class="active">Басты бет</a></li><li><a href="#calculator">Есептеу</a></li><li><a href="#countries">Елдер</a></li><li><a href="#scientific">Ғылыми деректер</a></li></ul></div></nav>
+
+  <section class="hero" id="home"><div class="hero-content"><h1>Сіздің планетаға әсеріңіз қандай?</h1><p>Экологиялық із — бұл біздің өмір сүру салтымызды қамтамасыз ету үшін қажетті биологиялық өнімді жер мен су айдынының ауданы.</p><div class="quote">"Бізде тек бір Жер бар, бірақ біз оны шексіз деп ойлаймыз."</div><div class="earth-needed">🌍 Әлем қазір <strong>1.7 Жер</strong> ресурсын тұтынады!<br><small>Global Footprint Network, 2025</small></div><div class="overshoot-date">📅 Жерді асып түсу күні 2024:<span class="date">1 тамыз</span><small>Бұл күннен бастап адамзат табиғаттан "несиеге" ресурс алады</small></div><div class="counter-badge"><span>👥 Бүгін:</span><span class="number" id="today-count">0</span><span>|</span><span>Барлығы:</span><span class="number" id="total-count">0</span></div></div></section>
+
+  <div class="stats-bar"><div class="stat-item"><span>📈</span><span>Жалпы ЭІ:</span><span class="value">20.6 млрд гга</span></div><div class="stat-item"><span>👤</span><span>Жан басына:</span><span class="value">2.84 гга</span></div><div class="stat-item"><span>🌱</span><span>Биосыйымдылық:</span><span class="value">1.68 гга</span></div><div class="stat-item"><span>⚠️</span><span>Асып түсу:</span><span class="value">69.6%</span></div></div>
+
+  <div class="info-grid"><div class="info-card"><h3>💧 СУ ІЗІ</h3><p>Тауарлар мен қызметтерді өндіру кезінде жұмсалатын көрінбейтін су мөлшері.</p><ul><li>☕ 1 кесе кофе = 140 л су</li><li>👖 1 джинсы = 10,000 л су</li><li>🥩 1 кг сиыр еті = 15,000 л су</li></ul></div><div class="info-card"><h3>🌫️ КӨМІРТЕГІ ІЗІ</h3><p>Атмосфераға бөлінетін CO₂ мөлшерін сіңіру үшін қажетті орман ауданы.</p><ul><li>🚗 1 км жеке көлік = 0.12 кг CO₂</li><li>✈️ 1 сағат ұшақ = 250 кг CO₂</li><li>⚡ 1 кВт·сағ = 0.5 кг CO₂</li></ul></div><div class="info-card"><h3>📊 ЭКОЛОГИЯЛЫҚ ІЗ</h3><p>Адамның табиғи ресурстарға тәуелділік деңгейін анықтайтын әдіс.</p><ul><li>📏 Өлшем: глобалды гектар (гга)</li><li>🌍 Әлемдік орташа: 2.84 гга/адам</li><li>✅ Тұрақты шек: 1.68 гга/адам</li></ul></div></div>
+
+  <section class="calculator" id="calculator"><h2 class="section-title">🧮 Экологиялық ізді есептеу</h2><form id="ecoForm"><div class="calc-section"><h3>🍽️ А. Тамақтану (Аптасына порция)</h3><div class="form-grid"><div class="form-group"><label for="beef">Сиыр/Қой еті</label><input type="number" id="beef" min="0" value="2"><small>1 порция ≈ 150г</small></div><div class="form-group"><label for="chicken">Тауық еті</label><input type="number" id="chicken" min="0" value="3"></div><div class="form-group"><label for="veggies">Көкөністер</label><input type="number" id="veggies" min="0" value="10"></div><div class="form-group"><label for="dairy">Сүт өнімдері</label><input type="number" id="dairy" min="0" value="5"></div><div class="form-group"><label for="foodWaste">Тамақ қалдығы (%)</label><input type="number" id="foodWaste" min="0" max="100" value="10"></div></div></div><div class="calc-section"><h3>🚗 Ә. Көлік (Аптасына)</h3><div class="form-grid"><div class="form-group"><label for="carKm">Жеке көлік (км)</label><input type="number" id="carKm" min="0" value="100"></div><div class="form-group"><label for="publicKm">Қоғамдық көлік (км)</label><input type="number" id="publicKm" min="0" value="50"></div><div class="form-group"><label for="flightHr">Ұшақ (сағат/жыл)</label><input type="number" id="flightHr" min="0" value="2"></div></div></div><div class="calc-section"><h3>🏠 Б. Тұрғын үй (Айына)</h3><div class="form-grid"><div class="form-group"><label for="electricity">Электр (кВт·сағ)</label><input type="number" id="electricity" min="0" value="200"></div><div class="form-group"><label for="water">Су (м³)</label><input type="number" id="water" min="0" value="10" step="0.1"></div><div class="form-group"><label for="houseType">Үй түрі</label><select id="houseType"><option value="brick">Кірпіш</option><option value="panel">Панельді (+10%)</option><option value="private">Жеке үй (+15%)</option></select></div><div class="form-group"><label for="saveWater">Суды үнемдеу</label><select id="saveWater"><option value="no">Жоқ</option><option value="yes">Иә (−5%)</option></select></div></div></div><button type="button" class="btn-calculate" onclick="calculateFootprint()">✨ Есептеуді аяқтау</button></form><div class="result-card" id="result"><h3>📊 Сіздің экологиялық ізіңіз:</h3><div class="earth-counter"><span id="earths-value">0.00</span><span class="earth-icon">🌍</span></div><p>Егер әр адам сіздей өмір сүрсе, <strong id="earths-text">0</strong> Жер планетасы қажет болар еді</p><div class="progress-container"><div class="progress-bar"><div class="progress-fill" id="progress"></div></div><div class="progress-labels"><span>0 гга</span><span>1.68 гга (тұрақты)</span><span>3.0+ гга (жоғары)</span></div></div><p><strong>Жылдық ізіңіз:</strong> <span id="total-gha">0.00</span> гга</p><p><small>Әлем: 2.84 гга | Қазақстан: ~6.5 гга</small></p><div class="components-breakdown"><h4>📊 Компоненттер бойынша бөлінуі</h4><div class="component-item"><span class="component-label">🔴 Көміртекті</span><div class="component-bar"><div class="component-fill carbon" id="comp-carbon"></div></div><span class="component-percent" id="pct-carbon">0%</span></div><div class="component-item"><span class="component-label">🟢 Егістік</span><div class="component-bar"><div class="component-fill cropland" id="comp-cropland"></div></div><span class="component-percent" id="pct-cropland">0%</span></div><div class="component-item"><span class="component-label">🌲 Орман</span><div class="component-bar"><div class="component-fill forest" id="comp-forest"></div></div><span class="component-percent" id="pct-forest">0%</span></div><div class="component-item"><span class="component-label">🐄 Жайылым</span><div class="component-bar"><div class="component-fill grazing" id="comp-grazing"></div></div><span class="component-percent" id="pct-grazing">0%</span></div><div class="component-item"><span class="component-label">🐟 Балық</span><div class="component-bar"><div class="component-fill fishing" id="comp-fishing"></div></div><span class="component-percent" id="pct-fishing">0%</span></div><div class="component-item"><span class="component-label">🏙️ Құрылыс</span><div class="component-bar"><div class="component-fill builtup" id="comp-builtup"></div></div><span class="component-percent" id="pct-builtup">0%</span></div></div><div class="recommendations"><h4>💡 Ұсыныстар:</h4><ul id="tips-list"></ul></div></div></section>
+
+  <section class="country-section"><h2 class="section-title">🏆 Ең жоғары көрсеткіштер</h2><div class="top-cards"><div class="top-card"><h4>🟢 Ең үлкен резерв</h4><div class="rank">#1</div><div class="country-name">🇬🇦 Габон</div><div class="metric">Резерв: <strong>+663%</strong></div><div class="metric">Жан басына: 2.3 гга | Биосыйымдылық: 17.2 гга</div></div><div class="top-card deficit"><h4>🔴 Ең үлкен дефицит</h4><div class="rank">#1</div><div class="country-name">🇸🇬 Сингапур</div><div class="metric">Дефицит: <strong>−34,000%</strong></div><div class="metric">Жан басына: 10.6 гга | Биосыйымдылық: –</div></div><div class="top-card"><h4>✅ Табыс тарихы</h4><div class="rank">🇬🇧 Ұлыбритания</div><div class="country-name">ЭІ азайды: −27%</div><div class="metric">2007: 400 млн гга → 2024: 270 млн гга</div><div class="metric">Жаңартылатын энергия + орман қалпына келтіру</div></div></div></section>
+
+  <section class="country-section"><div class="kz-profile"><h3>🇰🇿 Қазақстанның экологиялық профилі</h3><div class="kz-grid"><div class="kz-stat"><div class="value" id="kz-footprint">–</div><div class="label">Жан басына ЭІ (гга)</div></div><div class="kz-stat"><div class="value" id="kz-biocap">–</div><div class="label">Биосыйымдылық (гга)</div></div><div class="kz-stat"><div class="value" id="kz-reserve">–</div><div class="label">Резерв/Дефицит</div></div><div class="kz-stat"><div class="value" id="kz-total-ef">–</div><div class="label">Жалпы ЭІ (млн гга)</div></div><div class="kz-stat"><div class="value" id="kz-total-bc">–</div><div class="label">Жалпы биосыйымдылық</div></div><div class="kz-stat"><div class="value">19.5 млн</div><div class="label">Халық саны</div></div></div><p style="margin-top:1rem; opacity:.95;">🎯 <strong>2030 мақсаты:</strong> Жан басына ЭІ-ні 4.0 гга-ға дейін төмендету арқылы тұрақты дамуды қамтамасыз ету.</p><div class="kz-actions"><a href="https://www.footprintnetwork.org/countries/KAZ/" target="_blank" class="btn-link">📊 Ресми деректер</a><button class="btn-link btn-outline" onclick="exportKZData()">📥 Деректерді жүктеу</button></div></div></section>
+
+  <section class="country-section"><div class="success-story"><h4>🎉 Табыс тарихы: Ұлыбритания</h4><p>Ұлыбритания экологиялық ізін 2007 жылдан бері айтарлықтай азайтты:</p><div class="success-timeline"><div class="timeline-item"><div class="year">2007</div><div class="value">400 млн гга</div><div class="change negative">Бастапқы</div></div><div class="timeline-item"><div class="year">2017</div><div class="value">310 млн гга</div><div class="change">−22%</div></div><div class="timeline-item"><div class="year">2024</div><div class="value">270 млн гга</div><div class="change">−27% ✅</div></div></div><p><strong>Негізгі шаралар:</strong> Жаңартылатын энергия көздерін дамыту, энергия тиімділігін арттыру, орман алқаптарын кеңейту, қоғамдық көлікті ынталандыру.</p></div></section>
+
+  <!-- Негізгі түсініктер бөлімі - ЖАҢАРТЫЛҒАН -->
+  <section class="concepts-section"><h2 class="section-title">📚 Негізгі түсініктер (2025)</h2>
+    
+    <!-- ҚОС ТӘУЕКЕЛ -->
+    <div class="info-card" style="border-top:4px solid var(--danger);margin-bottom:1.5rem">
+      <h3>⚠️ ҚОС ТӘУЕКЕЛ деген не?</h3>
+      <p style="font-weight:500;margin-bottom:1rem;">"Қос тәуекел" — бұл адамның немесе елдің <strong>бір уақытта екі үлкен мәселеге</strong> тап болуы:</p>
+      
+      <div class="double-risk-grid">
+        <div class="risk-box resource">
+          <div class="risk-icon">🌾</div>
+          <div class="risk-title">ТӘУЕКЕЛ №1</div>
+          <div class="risk-desc">Ресурстар жетіспейді:<br>су, жер, азық-түлік тапшы</div>
+        </div>
+        <div class="risk-box income">
+          <div class="risk-icon">💰</div>
+          <div class="risk-title">ТӘУЕКЕЛ №2</div>
+          <div class="risk-desc">Ақша/табыс жетіспейді:<br>импорттауға мүмкіндік жоқ</div>
+        </div>
+        <div class="risk-box combined">
+          <div class="risk-icon">🔴</div>
+          <div class="risk-title">✅ НӘТИЖЕ: "ҚОС ТӘУЕКЕЛ"</div>
+          <div class="risk-desc">🌍 Әлем халқының <strong>72%</strong> осы жағдайда!<br>🍽️ <strong>3 млрд адам</strong> азық-түлік қауіпсіздігі тәуекелінде</div>
+        </div>
+      </div>
+      
+      <div style="background:#fff3e0;padding:1rem;border-radius:8px;margin-top:1rem">
+        <p style="font-weight:600;color:var(--warning)">🍽️ Күнделікті мысал:</p>
+        <p style="font-size:.95rem">Суреттеңіз: • Сізде ақша жоқ (тәуекел №1) • Дүкенде нан да жоқ (тәуекел №2)<br><strong>Нәтиже:</strong> Сіз аш қалуыңыз мүмкін → Бұл "қос тәуекел"</p>
+      </div>
+    </div>
+
+    <!-- БЕЛГІ ЕМЕС, ТҮБІР -->
+    <div class="info-card" style="border-top:4px solid var(--info);margin-bottom:1.5rem">
+      <h3>🔍 "Климат өзгерісі — белгі, түбір емес" деген не?</h3>
+      <p style="font-weight:500;margin-bottom:1rem;">Бұл сөз тіркесі мынаны білдіреді:</p>
+      
+      <div class="symptom-root">
+        <div class="symptom-box">
+          <h4 style="color:var(--warning);margin-bottom:.5rem">🤒 БЕЛГІ (Симптом)</h4>
+          <p style="font-size:1.5rem;margin:.5rem 0">🌡️ Климат өзгерісі</p>
+          <p style="font-size:.9rem;color:var(--text-light)">Бұл — науқастың температурасы. Температураны түсіру — белгіні емдеу. Науқас әлі де ауырады.</p>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center">
+          <div style="font-size:2rem;color:var(--text-light)">⬇️</div>
+        </div>
+        <div class="root-box">
+          <h4 style="color:var(--secondary);margin-bottom:.5rem">🌱 ТҮБІР (Негізгі себеп)</h4>
+          <p style="font-size:1.5rem;margin:.5rem 0">🔄 Биоресурстарды асып пайдалану</p>
+          <p style="font-size:.9rem;color:var(--text-light)">Бұл — инфекция. Инфекцияны емдеу — түбірді емдеу. Температура өздігінен түседі, науқас сауығады.</p>
+        </div>
+      </div>
+      
+      <div style="background:#e8f5e9;padding:1rem;border-radius:8px;margin-top:1rem">
+        <p style="font-weight:600;color:var(--secondary)">💡 Неге бұл маңызды?</p>
+        <ul style="font-size:.95rem;margin-left:1.5rem;margin-top:.5rem">
+          <li>❌ Тек климатпен күресу → Көміртекті азайтамыз, бірақ ормандар әлі де кесіледі</li>
+          <li>✅ Түбір мәселемен күресу → Биоресурстарды үнемдейміз → Климат өздігінен тұрақтанады</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- АЗЫҚ-ТҮЛІК ҚАУІПСІЗДІГІ МАТРИЦАСЫ -->
+    <div class="food-security-matrix">
+      <h4 style="text-align:center;color:var(--primary);margin-bottom:1rem">🍽️ Азық-түлік қауіпсіздігі матрицасы</h4>
+      <p style="text-align:center;font-size:.95rem;margin-bottom:1rem;color:var(--text-light)">Елдерді екі көрсеткіш бойынша бағалау: <strong>ішкі өндіріс</strong> және <strong>табыс деңгейі</strong></p>
+      
+      <div class="matrix-grid">
+        <div class="matrix-cell matrix-header"></div>
+        <div class="matrix-cell matrix-header">Төмен табыс</div>
+        <div class="matrix-cell matrix-header">Жоғары табыс</div>
+        
+        <div class="matrix-cell matrix-header">Төмен өндіріс</div>
+        <div class="matrix-cell matrix-red"><strong>🔴 ҚОС ТӘУЕКЕЛ</strong><br><small>38% әлем халқы</small></div>
+        <div class="matrix-cell matrix-yellow"><strong>🟡 Импортқа тәуелді</strong><br><small>Сингапур, Кувейт</small></div>
+        
+        <div class="matrix-cell matrix-header">Жоғары өндіріс</div>
+        <div class="matrix-cell matrix-yellow"><strong>🟡 Әлеует бар</strong><br><small>Эфиопия, Руанда</small></div>
+        <div class="matrix-cell matrix-green"><strong>🟢 ТҰРАҚТЫ</strong><br><small>🇰🇿 Қазақстан, 🇧🇷 Бразилия</small></div>
+      </div>
+      
+      <p style="text-align:center;font-size:.9rem;color:var(--text-light);margin-top:1rem">
+        🔴 Қызыл: Ресурс дефициті + Төмен табыс → Азық-түлік қауіпсіздігі бұзылуы мүмкін
+      </p>
+    </div>
+
+    <!-- ЭКОЛОГИЯЛЫҚ ЦИКЛ -->
+    <div class="cycle-diagram">
+      <h4 style="color:var(--primary);margin-bottom:1rem">🔄 Экологиялық цикл</h4>
+      <div class="cycle-items">
+        <div class="cycle-item"><div class="icon">🌍</div><div class="label">Табиғат</div><div class="desc">Ресурстар береді</div></div>
+        <div style="font-size:1.5rem">→</div>
+        <div class="cycle-item"><div class="icon">👤</div><div class="label">Адам</div><div class="desc">Ресурстарды тұтынады</div></div>
+        <div style="font-size:1.5rem">→</div>
+        <div class="cycle-item"><div class="icon">♻️</div><div class="label">Қайта өңдеу</div><div class="desc">Табиғатқа қайтару</div></div>
+      </div>
+      <p style="margin-top:1rem;font-size:.95rem;color:var(--text-light)">💡 <strong>Тұрақты даму:</strong> Тұтыну ≤ Қайта өндіру жылдамдығы</p>
+    </div>
+  </section>
+
+  <section class="country-section" id="countries"><h2 class="section-title">🌍 Елдер бойынша экологиялық із (2025)</h2><div class="search-controls"><input type="text" id="countrySearch" placeholder="🔍 Елді іздеу..." oninput="filterCountries()"><select id="regionFilter" onchange="filterCountries()"><option value="">🌐 Барлық аймақтар</option><option value="Азия">🌏 Азия</option><option value="Еуропа">🌍 Еуропа</option><option value="Африка">🌍 Африка</option><option value="Америка">🌎 Америка</option><option value="Океания">🌏 Океания</option></select><select id="sortFilter" onchange="filterCountries()"><option value="name">🔤 А-Я бойынша</option><option value="footprint_desc">📉 Жан басына ЭІ (жоғары)</option><option value="footprint_asc">📈 Жан басына ЭІ (төмен)</option><option value="reserve_desc">🟢 Резерв (жоғары)</option><option value="deficit_desc">🔴 Дефицит (жоғары)</option></select><button class="export-btn" onclick="exportCountries()">📥 CSV жүктеу</button></div><div style="overflow-x:auto"><table class="country-table" id="countryTable"><thead><tr><th onclick="sortTable('name')">Ел</th><th onclick="sortTable('region')">Аймақ</th><th onclick="sortTable('footprint')">Жан басына ЭІ (гга)</th><th onclick="sortTable('biocap')">Биосыйымдылық</th><th onclick="sortTable('balance')">Статус</th><th>Халық (млн)</th></tr></thead><tbody id="countryBody"></tbody></table></div><div class="pagination" id="pagination"></div><p class="text-center mt-2"><small>Дереккөз: Global Footprint Network / World Population Review, 2025</small></p></section>
+
+  <section class="scientific" id="trends"><h2 class="section-title">📈 Жаһандық трендтер (1961-2024)</h2><div class="trends-section"><p class="text-center"><strong>Экологиялық із 3 есе өсті, ал биосыйымдылық жартылай азайды</strong></p><div class="trend-chart" id="trendChart"></div><div class="trend-legend"><div class="legend-item"><div class="legend-color" style="background:var(--primary)"></div><span>Экологиялық із</span></div><div class="legend-item"><div class="legend-color" style="background:var(--secondary)"></div><span>Биосыйымдылық</span></div></div></div></section>
+
+  <section class="scientific" id="quadrant"><h2 class="section-title">🎯 Тұрақты даму квадранты</h2><div class="quadrant-section"><p class="text-center"><strong>Адам дамуы индексі (HDI) және Экологиялық із бойынша бағалау</strong></p><div class="quadrant-chart"><div class="quadrant q2"><div class="quadrant-title">🔴 Жоғары даму, жоғары із</div><div class="quadrant-desc">АҚШ, Германия, Жапония</div></div><div class="quadrant q1"><div class="quadrant-title">🟢 Жоғары даму, төмен із</div><div class="quadrant-desc">Тұрақты даму аймағы (мақсат)</div></div><div class="quadrant q4"><div class="quadrant-title">⚪ Төмен даму, төмен із</div><div class="quadrant-desc">Көптеген дамушы елдер</div></div><div class="quadrant q3"><div class="quadrant-title">🟡 Төмен даму, жоғары із</div><div class="quadrant-desc">Ресурстарды тиімсіз пайдалану</div></div></div><p class="text-center"><small>🇰🇿 Қазақстан: ~6.5 гга/адам — жоғары із, бірақ резервте</small></p></div></section>
+
+  <section class="scientific" id="scientific"><h2 class="section-title">📚 Ғылыми деректер</h2><div class="info-card"><h3>🔍 Экологиялық із әдістемесі</h3><p><strong>Экологиялық із</strong> — адамның табиғи ресурстарға тәуелділік деңгейін анықтайтын әдіс.</p><div class="formula-box"><code>EF = Σ(P<sub>i</sub> / Y<sub>w,i</sub>) × EQF<sub>i</sub></code><ul style="margin-top:.5rem;font-size:.9rem"><li><code>P<sub>i</sub></code> — i өнімінің тұтынуы (тонна/жыл)</li><li><code>Y<sub>w,i</sub></code> — әлемдік орташа өнімділік</li><li><code>EQF<sub>i</sub></code> — баламалылық коэффициенті</li></ul></div><h4 class="mt-2">⚖️ 6 Негізгі компонент (2025)</h4><ul><li>🔴 <strong>Көміртекті із (60%)</strong> — CO₂ сіңіру үшін орман</li><li>🟢 <strong>Егістік жер (19.4%)</strong> — азық-түлік</li><li>🌲 <strong>Орман (9.8%)</strong> — ағаш, қағаз</li><li>🐄 <strong>Жайылым (5.1%)</strong> — мал шаруашылығы</li><li>🐟 <strong>Балық (3.3%)</strong> — теңіз ресурстары</li><li>🏙️ <strong>Құрылыс (2.3%)</strong> — инфрақұрылым</li></ul></div><div class="comparison-tool"><h4>🔄 Өзіңізді әлеммен салыстырыңыз</h4><select id="compareCountry" onchange="showComparison()"><option value="world">🌍 Әлемдік орташа (2.84 гга)</option><option value="kz">🇰🇿 Қазақстан (~6.5 гга)</option><option value="ru">🇷🇺 Ресей (6.1 гга)</option><option value="de">🇩🇪 Германия (4.6 гга)</option><option value="us">🇺🇸 АҚШ (7.9 гга)</option><option value="cn">🇨🇳 Қытай (3.6 гга)</option></select><div id="comparisonResult">Нәтижеңізді есептеген соң салыстырыңыз.</div></div></section>
+
+  <footer class="sources"><h5>📚 Дереккөздер:</h5><ul><li><a href="https://www.footprintnetwork.org/" target="_blank">Global Footprint Network</a> — National Footprint Accounts 2025</li><li><a href="https://www.footprintnetwork.org/2024/07/21/earth_overshoot_day_2024/" target="_blank">Earth Overshoot Day 2024: August 1</a></li><li><a href="https://www.footprintnetwork.org/2022/07/13/food-security-in-a-world-of-overshoot/" target="_blank">Food Security in a World of Overshoot</a></li><li><a href="https://www.footprintnetwork.org/2024/09/30/national_security_blind_spot/" target="_blank">National Security Blind Spot</a></li><li><a href="https://worldpopulationreview.com/country-rankings/ecological-footprint-by-country" target="_blank">World Population Review</a></li><li>ҚР Су ресурстары министрлігі — "Water Base" жүйесі</li></ul><p class="mt-2" style="opacity:.8;font-size:.9rem">© 2026 Экологиялық із | Қазақстан үшін жасалған экологиялық білім беру платформасы</p></footer>
+
+  <script>
+    // ================= COUNTER SYSTEM =================
+    const Counter = {
+      keys: { total: 'eco_total', today: 'eco_today', date: 'eco_date', calc: 'eco_calc' },
+      getToday() { return new Date().toISOString().split('T')[0]; },
+      checkReset() {
+        const t = this.getToday();
+        if (localStorage.getItem(this.keys.date) !== t) {
+          localStorage.setItem(this.keys.today, '0');
+          localStorage.setItem(this.keys.date, t);
+          localStorage.removeItem(this.keys.calc);
+        }
+      },
+      get(k) { return parseInt(localStorage.getItem(k) || '0'); },
+      update() {
+        document.getElementById('total-count').textContent = this.get(this.keys.total).toLocaleString('kk-KZ');
+        document.getElementById('today-count').textContent = this.get(this.keys.today).toLocaleString('kk-KZ');
+      },
+      inc() {
+        this.checkReset();
+        if (localStorage.getItem(this.keys.calc) === this.getToday()) return false;
+        localStorage.setItem(this.keys.total, (this.get(this.keys.total) + 1) + '');
+        localStorage.setItem(this.keys.today, (this.get(this.keys.today) + 1) + '');
+        localStorage.setItem(this.keys.calc, this.getToday());
+        return true;
+      },
+      pulse() { document.querySelectorAll('#today-count,#total-count').forEach(el => { el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }); },
+      init() { this.checkReset(); this.update(); }
+    };
+
+    // ================= CALCULATOR =================
+    const COEFF = { beef: .0027, chicken: .00069, veggies: .00005, dairy: .00032, waste: .01, car: .000012, public: .000004, flight: .025, electricity: .00005, water: .0002, panel: 1.1, private: 1.15, saveWater: .95 },
+      YEARLY = { weekly: 52, monthly: 12 },
+      BASE_COMP = { carbon: 60, cropland: 19.4, forest: 9.8, grazing: 5.1, fishing: 3.3, builtup: 2.3 };
+
+    function calculateFootprint() {
+      const v = id => parseFloat(document.getElementById(id).value) || 0,
+        d = { beef: v('beef'), chicken: v('chicken'), veggies: v('veggies'), dairy: v('dairy'), waste: v('foodWaste'), carKm: v('carKm'), publicKm: v('publicKm'), flightHr: v('flightHr'), electricity: v('electricity'), water: v('water'), houseType: document.getElementById('houseType').value, saveWater: document.getElementById('saveWater').value };
+      let fp = 0;
+      fp += (d.beef * COEFF.beef + d.chicken * COEFF.chicken + d.veggies * COEFF.veggies + d.dairy * COEFF.dairy) * YEARLY.weekly;
+      fp += d.waste * COEFF.waste;
+      fp += (d.carKm * COEFF.car + d.publicKm * COEFF.public) * YEARLY.weekly + d.flightHr * COEFF.flight;
+      let h = (d.electricity * COEFF.electricity + d.water * COEFF.water) * YEARLY.monthly;
+      if (d.houseType === 'panel') h *= COEFF.panel; if (d.houseType === 'private') h *= COEFF.private; if (d.saveWater === 'yes') h *= COEFF.saveWater;
+      fp += h;
+      const earths = fp / 1.68;
+      document.getElementById('earths-value').textContent = earths.toFixed(2);
+      document.getElementById('earths-text').textContent = earths.toFixed(1);
+      document.getElementById('total-gha').textContent = fp.toFixed(2);
+      const prog = Math.min(100, (fp / 4) * 100), fill = document.getElementById('progress');
+      fill.style.width = prog + '%';
+      fill.style.background = fp <= 1.68 ? 'linear-gradient(90deg,#4caf50,#81c784)' : fp <= 2.84 ? 'linear-gradient(90deg,#ff9800,#ffb74d)' : 'linear-gradient(90deg,#f44336,#ef9a9a)';
+      const cf = 1 + (d.flightHr * .1) + (d.carKm * .001), cf2 = 1 + (d.beef * .15) + (d.waste * .05);
+      let c = { carbon: Math.min(85, BASE_COMP.carbon * cf), cropland: Math.min(35, BASE_COMP.cropland * cf2), forest: BASE_COMP.forest, grazing: BASE_COMP.grazing * (1 + d.beef * .05), fishing: BASE_COMP.fishing, builtup: BASE_COMP.builtup },
+        tot = Object.values(c).reduce((a, b) => a + b, 0);
+      Object.keys(c).forEach(k => { c[k] = (c[k] / tot) * 100; document.getElementById('comp-' + k).style.width = c[k].toFixed(1) + '%'; document.getElementById('pct-' + k).textContent = c[k].toFixed(1) + '%'; });
+      const tips = [];
+      if (d.beef > 3) tips.push("🥩 Сиыр етін аптасына 1-2 порцияға дейін азайтыңыз");
+      if (d.carKm > 150) tips.push("🚗 Қоғамдық көлік/велосипедті таңдаңыз");
+      if (d.flightHr > 5) tips.push("✈️ Ұшақ сапарларын қысқартыңыз");
+      if (d.electricity > 300) tips.push("💡 LED шамдар мен энергия үнемдегіштерді қолданыңыз");
+      if (d.water > 15) tips.push("💧 Суды үнемдеу құрылғыларын орнатыңыз");
+      if (d.waste > 15) tips.push("🗑️ Тамақ қалдығын азайту үшін жоспарлы сатып алу жасаңыз");
+      if (tips.length === 0) tips.push(fp <= 1.68 ? "🎉 Тамаша! Ізіңіз тұрақты шекте." : "🌱 Кішкене өзгерістер үлкен әсер етеді.");
+      document.getElementById('tips-list').innerHTML = tips.map(t => `<li>${t}</li>`).join('');
+      document.getElementById('result').classList.add('show');
+      window.userFP = fp; updateComparison(fp);
+      Counter.inc(); Counter.pulse();
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function updateComparison(fp) { window.userFP = fp; }
+    function showComparison() {
+      if (!window.userFP) { document.getElementById('comparisonResult').innerHTML = '<em>Алдымен экологиялық ізіңізді есептеңіз</em>'; return; }
+      const c = document.getElementById('compareCountry').value,
+        map = { world: ['Әлемдік орташа', 2.84], kz: ['Қазақстан', 6.5], ru: ['Ресей', 6.1], de: ['Германия', 4.6], us: ['АҚШ', 7.9], cn: ['Қытай', 3.6] },
+        [name, val] = map[c], diff = window.userFP - val,
+        msg = Math.abs(diff) < .5 ? '📊 Жақын' : diff < 0 ? `✅ ${Math.abs(diff).toFixed(1)} гга төмен` : `⚠️ ${diff.toFixed(1)} гга жоғары`;
+      document.getElementById('comparisonResult').innerHTML = `<strong>Сіз:</strong> ${window.userFP.toFixed(2)} гга | <strong>${name}:</strong> ${val} гга <br><small>${((window.userFP / val) * 100).toFixed(0)}% • ${msg}</small>`;
+    }
+
+    // ================= COUNTRIES DATA =================
+    function cleanKey(key) { return key.trim(); }
+    function cleanCountryData(raw) {
+      const cleaned = {};
+      Object.keys(raw).forEach(k => {
+        const key = cleanKey(k);
+        let val = raw[k];
+        if (val === null || val === undefined) val = null;
+        else if (typeof val === 'string') val = val.trim();
+        cleaned[key] = val;
+      });
+      cleaned.region = getRegionByCode(cleaned.flagCode);
+      if (cleaned.EcoFootprint_2025 && cleaned.EcoFootprintPerCapita_2025 && cleaned.EcoFootprintPerCapita_2025 > 0) {
+        cleaned.population = (cleaned.EcoFootprint_2025 / cleaned.EcoFootprintPerCapita_2025 / 1000000).toFixed(1);
+      } else { cleaned.population = null; }
+      return cleaned;
+    }
+    function getRegionByCode(code) {
+      if (!code) return 'Басқа';
+      const c = code.trim().toUpperCase();
+      const asia = ['CN','IN','JP','KR','ID','TH','VN','MY','SG','PH','BD','PK','LK','NP','BT','MM','KH','LA','MN','KZ','UZ','TM','KG','TJ','AF','IR','IQ','SA','AE','QA','KW','BH','OM','YE','JO','LB','SY','PS','IL','TR','GE','AM','AZ'];
+      const europe = ['RU','DE','GB','FR','IT','ES','PL','RO','NL','BE','GR','PT','CZ','HU','SE','AT','BY','CH','BG','RS','SK','HR','DK','FI','NO','IE','LT','LV','EE','SI','LU','MT','CY','IS','MK','AL','BA','ME','MD','UA'];
+      const africa = ['NG','ET','EG','CD','ZA','TZ','KE','UG','SD','DZ','MA','AO','GH','MZ','MG','CM','CI','NE','BF','ML','MW','ZM','SN','SO','TD','ZW','GN','BJ','RW','TN','BI','TG','SL','LR','MR','NA','GQ','GA','BW','LS','SZ','DJ','ER','CF','CG','GM','ST','CV','SC','KM','SS'];
+      const america = ['US','BR','MX','CO','AR','PE','VE','CL','EC','GT','CU','BO','DO','HN','PY','SV','NI','CR','PA','UY','JM','TT','GY','SR','BZ','BB','LC','GD','VC','AG','DM','KN','GF'];
+      const oceania = ['AU','NZ','PG','FJ','SB','NC','PF','WS','TO','VU','KI','FM','MH','PW','NR','TV','CK','NU','TK','TL'];
+      if (asia.includes(c)) return 'Азия';
+      if (europe.includes(c)) return 'Еуропа';
+      if (africa.includes(c)) return 'Африка';
+      if (america.includes(c)) return 'Америка';
+      if (oceania.includes(c)) return 'Океания';
+      return 'Басқа';
+    }
+
+    const RAW_COUNTRIES = [{"flagCode ":"BB ","country ":"Barbados ","EcoFootprint_2025 ":1340000,"EcoFootprintPerCapita_2025 ":4.8,"BiocapacityByCountry_2025 ":50500,"BiocapacityPerCapitaByCountry_2025 ":0.2,"EcologicalReserveOrDeficit_2025 ":-2600},{"flagCode ":"LC ","country ":"Saint Lucia ","EcoFootprint_2025 ":704000,"EcoFootprintPerCapita_2025 ":3.9,"BiocapacityByCountry_2025 ":64300,"BiocapacityPerCapitaByCountry_2025 ":0.4,"EcologicalReserveOrDeficit_2025 ":-990},{"flagCode ":"AG ","country ":"Antigua and Barbuda ","EcoFootprint_2025 ":535000,"EcoFootprintPerCapita_2025 ":5.7,"BiocapacityByCountry_2025 ":84400,"BiocapacityPerCapitaByCountry_2025 ":0.9,"EcologicalReserveOrDeficit_2025 ":-530},{"flagCode ":"TO ","country ":"Tonga ","EcoFootprint_2025 ":387000,"EcoFootprintPerCapita_2025 ":3.6,"BiocapacityByCountry_2025 ":145000,"BiocapacityPerCapitaByCountry_2025 ":1.4,"EcologicalReserveOrDeficit_2025 ":-170},{"flagCode ":"ST ","country ":"Sao Tome and Principe ","EcoFootprint_2025 ":272000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":158000,"BiocapacityPerCapitaByCountry_2025 ":0.7,"EcologicalReserveOrDeficit_2025 ":-72},{"flagCode ":"SG ","country ":"Singapore ","EcoFootprint_2025 ":63100000,"EcoFootprintPerCapita_2025 ":10.6,"BiocapacityByCountry_2025 ":186000,"BiocapacityPerCapitaByCountry_2025 ":null,"EcologicalReserveOrDeficit_2025 ":-34000},{"flagCode ":"GD ","country ":"Grenada ","EcoFootprint_2025 ":377000,"EcoFootprintPerCapita_2025 ":3,"BiocapacityByCountry_2025 ":196000,"BiocapacityPerCapitaByCountry_2025 ":1.6,"EcologicalReserveOrDeficit_2025 ":-93},{"flagCode ":"MT ","country ":"Malta ","EcoFootprint_2025 ":2700000,"EcoFootprintPerCapita_2025 ":5.1,"BiocapacityByCountry_2025 ":227000,"BiocapacityPerCapitaByCountry_2025 ":0.4,"EcologicalReserveOrDeficit_2025 ":-1100},{"flagCode ":"CV ","country ":"Cape Verde ","EcoFootprint_2025 ":982000,"EcoFootprintPerCapita_2025 ":1.7,"BiocapacityByCountry_2025 ":260000,"BiocapacityPerCapitaByCountry_2025 ":0.4,"EcologicalReserveOrDeficit_2025 ":-280},{"flagCode ":"WS ","country ":"Samoa ","EcoFootprint_2025 ":444000,"EcoFootprintPerCapita_2025 ":2,"BiocapacityByCountry_2025 ":280000,"BiocapacityPerCapitaByCountry_2025 ":1.3,"EcologicalReserveOrDeficit_2025 ":-59},{"flagCode ":"PF ","country ":"French Polynesia ","EcoFootprint_2025 ":1440000,"EcoFootprintPerCapita_2025 ":4.7,"BiocapacityByCountry_2025 ":352000,"BiocapacityPerCapitaByCountry_2025 ":1.1,"EcologicalReserveOrDeficit_2025 ":-310},{"flagCode ":"PS ","country ":"Palestine ","EcoFootprint_2025 ":6570000,"EcoFootprintPerCapita_2025 ":1.3,"BiocapacityByCountry_2025 ":449000,"BiocapacityPerCapitaByCountry_2025 ":0.1,"EcologicalReserveOrDeficit_2025 ":-1400},{"flagCode ":"CY ","country ":"Cyprus ","EcoFootprint_2025 ":6020000,"EcoFootprintPerCapita_2025 ":4.8,"BiocapacityByCountry_2025 ":459000,"BiocapacityPerCapitaByCountry_2025 ":0.4,"EcologicalReserveOrDeficit_2025 ":-1200},{"flagCode ":"BH ","country ":"Bahrain ","EcoFootprint_2025 ":11400000,"EcoFootprintPerCapita_2025 ":7.7,"BiocapacityByCountry_2025 ":717000,"BiocapacityPerCapitaByCountry_2025 ":0.5,"EcologicalReserveOrDeficit_2025 ":-1500},{"flagCode ":"MU ","country ":"Mauritius ","EcoFootprint_2025 ":4590000,"EcoFootprintPerCapita_2025 ":3.5,"BiocapacityByCountry_2025 ":851000,"BiocapacityPerCapitaByCountry_2025 ":0.7,"EcologicalReserveOrDeficit_2025 ":-440},{"flagCode ":"LU ","country ":"Luxembourg ","EcoFootprint_2025 ":8260000,"EcoFootprintPerCapita_2025 ":12.8,"BiocapacityByCountry_2025 ":854000,"BiocapacityPerCapitaByCountry_2025 ":1.3,"EcologicalReserveOrDeficit_2025 ":-870},{"flagCode ":"SZ ","country ":"Eswatini ","EcoFootprint_2025 ":5060000,"EcoFootprintPerCapita_2025 ":4.2,"BiocapacityByCountry_2025 ":1070000,"BiocapacityPerCapitaByCountry_2025 ":0.9,"EcologicalReserveOrDeficit_2025 ":-370},{"flagCode ":"GM ","country ":"Gambia ","EcoFootprint_2025 ":2510000,"EcoFootprintPerCapita_2025 ":0.9,"BiocapacityByCountry_2025 ":1230000,"BiocapacityPerCapitaByCountry_2025 ":0.5,"EcologicalReserveOrDeficit_2025 ":-100},{"flagCode ":"LB ","country ":"Lebanon ","EcoFootprint_2025 ":13100000,"EcoFootprintPerCapita_2025 ":2.4,"BiocapacityByCountry_2025 ":1520000,"BiocapacityPerCapitaByCountry_2025 ":0.3,"EcologicalReserveOrDeficit_2025 ":-760},{"flagCode ":"ME ","country ":"Montenegro ","EcoFootprint_2025 ":2840000,"EcoFootprintPerCapita_2025 ":4.5,"BiocapacityByCountry_2025 ":1680000,"BiocapacityPerCapitaByCountry_2025 ":2.7,"EcologicalReserveOrDeficit_2025 ":-69},{"flagCode ":"LS ","country ":"Lesotho ","EcoFootprint_2025 ":2840000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":1780000,"BiocapacityPerCapitaByCountry_2025 ":0.8,"EcologicalReserveOrDeficit_2025 ":-60},{"flagCode ":"TT ","country ":"Trinidad and Tobago ","EcoFootprint_2025 ":6140000,"EcoFootprintPerCapita_2025 ":4,"BiocapacityByCountry_2025 ":2090000,"BiocapacityPerCapitaByCountry_2025 ":1.4,"EcologicalReserveOrDeficit_2025 ":-190},{"flagCode ":"TL ","country ":"Timor-Leste ","EcoFootprint_2025 ":1210000,"EcoFootprintPerCapita_2025 ":0.9,"BiocapacityByCountry_2025 ":2140000,"BiocapacityPerCapitaByCountry_2025 ":1.6,"EcologicalReserveOrDeficit_2025 ":77},{"flagCode ":"KW ","country ":"Kuwait ","EcoFootprint_2025 ":32200000,"EcoFootprintPerCapita_2025 ":7.5,"BiocapacityByCountry_2025 ":2220000,"BiocapacityPerCapitaByCountry_2025 ":0.5,"EcologicalReserveOrDeficit_2025 ":-1400},{"flagCode ":"IL ","country ":"Israel ","EcoFootprint_2025 ":45600000,"EcoFootprintPerCapita_2025 ":5,"BiocapacityByCountry_2025 ":2230000,"BiocapacityPerCapitaByCountry_2025 ":0.2,"EcologicalReserveOrDeficit_2025 ":-1900},{"flagCode ":"HT ","country ":"Haiti ","EcoFootprint_2025 ":5780000,"EcoFootprintPerCapita_2025 ":0.5,"BiocapacityByCountry_2025 ":2250000,"BiocapacityPerCapitaByCountry_2025 ":0.2,"EcologicalReserveOrDeficit_2025 ":-160},{"flagCode ":"FJ ","country ":"Fiji ","EcoFootprint_2025 ":2640000,"EcoFootprintPerCapita_2025 ":2.8,"BiocapacityByCountry_2025 ":2250000,"BiocapacityPerCapitaByCountry_2025 ":2.4,"EcologicalReserveOrDeficit_2025 ":-17},{"flagCode ":"AM ","country ":"Armenia ","EcoFootprint_2025 ":7300000,"EcoFootprintPerCapita_2025 ":2.6,"BiocapacityByCountry_2025 ":2300000,"BiocapacityPerCapitaByCountry_2025 ":0.8,"EcologicalReserveOrDeficit_2025 ":-220},{"flagCode ":"QA ","country ":"Qatar ","EcoFootprint_2025 ":40400000,"EcoFootprintPerCapita_2025 ":15,"BiocapacityByCountry_2025 ":2580000,"BiocapacityPerCapitaByCountry_2025 ":1,"EcologicalReserveOrDeficit_2025 ":-1500},{"flagCode ":"MK ","country ":"North Macedonia ","EcoFootprint_2025 ":6590000,"EcoFootprintPerCapita_2025 ":3.1,"BiocapacityByCountry_2025 ":3190000,"BiocapacityPerCapitaByCountry_2025 ":1.5,"EcologicalReserveOrDeficit_2025 ":-110},{"flagCode ":"SV ","country ":"El Salvador ","EcoFootprint_2025 ":14800000,"EcoFootprintPerCapita_2025 ":2.3,"BiocapacityByCountry_2025 ":3240000,"BiocapacityPerCapitaByCountry_2025 ":0.5,"EcologicalReserveOrDeficit_2025 ":-360},{"flagCode ":"AL ","country ":"Albania ","EcoFootprint_2025 ":6190000,"EcoFootprintPerCapita_2025 ":2.2,"BiocapacityByCountry_2025 ":3290000,"BiocapacityPerCapitaByCountry_2025 ":1.2,"EcologicalReserveOrDeficit_2025 ":-88},{"flagCode ":"BS ","country ":"Bahamas ","EcoFootprint_2025 ":2640000,"EcoFootprintPerCapita_2025 ":6.4,"BiocapacityByCountry_2025 ":3540000,"BiocapacityPerCapitaByCountry_2025 ":8.6,"EcologicalReserveOrDeficit_2025 ":34},{"flagCode ":"RW ","country ":"Rwanda ","EcoFootprint_2025 ":9780000,"EcoFootprintPerCapita_2025 ":0.7,"BiocapacityByCountry_2025 ":3750000,"BiocapacityPerCapitaByCountry_2025 ":0.3,"EcologicalReserveOrDeficit_2025 ":-160},{"flagCode ":"BT ","country ":"Bhutan ","EcoFootprint_2025 ":3530000,"EcoFootprintPerCapita_2025 ":4.5,"BiocapacityByCountry_2025 ":3830000,"BiocapacityPerCapitaByCountry_2025 ":4.9,"EcologicalReserveOrDeficit_2025 ":8},{"flagCode ":"BI ","country ":"Burundi ","EcoFootprint_2025 ":7730000,"EcoFootprintPerCapita_2025 ":0.6,"BiocapacityByCountry_2025 ":4050000,"BiocapacityPerCapitaByCountry_2025 ":0.3,"EcologicalReserveOrDeficit_2025 ":-91},{"flagCode ":"GQ ","country ":"Equatorial Guinea ","EcoFootprint_2025 ":null,"EcoFootprintPerCapita_2025 ":1.7,"BiocapacityByCountry_2025 ":4690000,"BiocapacityPerCapitaByCountry_2025 ":null,"EcologicalReserveOrDeficit_2025 ":null},{"flagCode ":"TJ ","country ":"Tajikistan ","EcoFootprint_2025 ":11500000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":4710000,"BiocapacityPerCapitaByCountry_2025 ":0.5,"EcologicalReserveOrDeficit_2025 ":-140},{"flagCode ":"LY ","country ":"Libya ","EcoFootprint_2025 ":24500000,"EcoFootprintPerCapita_2025 ":3.6,"BiocapacityByCountry_2025 ":4980000,"BiocapacityPerCapitaByCountry_2025 ":0.7,"EcologicalReserveOrDeficit_2025 ":-390},{"flagCode ":"TG ","country ":"Togo ","EcoFootprint_2025 ":9300000,"EcoFootprintPerCapita_2025 ":1.1,"BiocapacityByCountry_2025 ":5100000,"BiocapacityPerCapitaByCountry_2025 ":0.6,"EcologicalReserveOrDeficit_2025 ":-82},{"flagCode ":"GE ","country ":"Georgia ","EcoFootprint_2025 ":12100000,"EcoFootprintPerCapita_2025 ":3.2,"BiocapacityByCountry_2025 ":5180000,"BiocapacityPerCapitaByCountry_2025 ":1.4,"EcologicalReserveOrDeficit_2025 ":-130},{"flagCode ":"SI ","country ":"Slovenia ","EcoFootprint_2025 ":11500000,"EcoFootprintPerCapita_2025 ":5.4,"BiocapacityByCountry_2025 ":5180000,"BiocapacityPerCapitaByCountry_2025 ":2.4,"EcologicalReserveOrDeficit_2025 ":-120},{"flagCode ":"OM ","country ":"Oman ","EcoFootprint_2025 ":27600000,"EcoFootprintPerCapita_2025 ":6,"BiocapacityByCountry_2025 ":6880000,"BiocapacityPerCapitaByCountry_2025 ":1.5,"EcologicalReserveOrDeficit_2025 ":-300},{"flagCode ":"ER ","country ":"Eritrea ","EcoFootprint_2025 ":2670000,"EcoFootprintPerCapita_2025 ":0.7,"BiocapacityByCountry_2025 ":7140000,"BiocapacityPerCapitaByCountry_2025 ":1.9,"EcologicalReserveOrDeficit_2025 ":167},{"flagCode ":"SL ","country ":"Sierra Leone ","EcoFootprint_2025 ":8710000,"EcoFootprintPerCapita_2025 ":1,"BiocapacityByCountry_2025 ":7370000,"BiocapacityPerCapitaByCountry_2025 ":0.9,"EcologicalReserveOrDeficit_2025 ":-18},{"flagCode ":"BW ","country ":"Botswana ","EcoFootprint_2025 ":5880000,"EcoFootprintPerCapita_2025 ":2.2,"BiocapacityByCountry_2025 ":7470000,"BiocapacityPerCapitaByCountry_2025 ":2.8,"EcologicalReserveOrDeficit_2025 ":27},{"flagCode ":"KG ","country ":"Kyrgyzstan ","EcoFootprint_2025 ":12500000,"EcoFootprintPerCapita_2025 ":1.9,"BiocapacityByCountry_2025 ":7680000,"BiocapacityPerCapitaByCountry_2025 ":1.2,"EcologicalReserveOrDeficit_2025 ":-62},{"flagCode ":"CR ","country ":"Costa Rica ","EcoFootprint_2025 ":13500000,"EcoFootprintPerCapita_2025 ":2.6,"BiocapacityByCountry_2025 ":7720000,"BiocapacityPerCapitaByCountry_2025 ":1.5,"EcologicalReserveOrDeficit_2025 ":-75},{"flagCode ":"BA ","country ":"Bosnia and Herzegovina ","EcoFootprint_2025 ":14700000,"EcoFootprintPerCapita_2025 ":4.6,"BiocapacityByCountry_2025 ":7940000,"BiocapacityPerCapitaByCountry_2025 ":2.5,"EcologicalReserveOrDeficit_2025 ":-86},{"flagCode ":"DO ","country ":"Dominican Republic ","EcoFootprint_2025 ":27700000,"EcoFootprintPerCapita_2025 ":2.5,"BiocapacityByCountry_2025 ":7990000,"BiocapacityPerCapitaByCountry_2025 ":0.7,"EcologicalReserveOrDeficit_2025 ":-250},{"flagCode ":"BJ ","country ":"Benin ","EcoFootprint_2025 ":16300000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":8210000,"BiocapacityPerCapitaByCountry_2025 ":0.6,"EcologicalReserveOrDeficit_2025 ":-98},{"flagCode ":"LK ","country ":"Sri Lanka ","EcoFootprint_2025 ":26900000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":9260000,"BiocapacityPerCapitaByCountry_2025 ":0.4,"EcologicalReserveOrDeficit_2025 ":-190},{"flagCode ":"CH ","country ":"Switzerland ","EcoFootprint_2025 ":39400000,"EcoFootprintPerCapita_2025 ":4.5,"BiocapacityByCountry_2025 ":9370000,"BiocapacityPerCapitaByCountry_2025 ":1.1,"EcologicalReserveOrDeficit_2025 ":-320},{"flagCode ":"AZ ","country ":"Azerbaijan ","EcoFootprint_2025 ":23400000,"EcoFootprintPerCapita_2025 ":2.3,"BiocapacityByCountry_2025 ":9790000,"BiocapacityPerCapitaByCountry_2025 ":0.9,"EcologicalReserveOrDeficit_2025 ":-140},{"flagCode ":"TN ","country ":"Tunisia ","EcoFootprint_2025 ":23000000,"EcoFootprintPerCapita_2025 ":1.9,"BiocapacityByCountry_2025 ":9890000,"BiocapacityPerCapitaByCountry_2025 ":0.8,"EcologicalReserveOrDeficit_2025 ":-130},{"flagCode ":"NP ","country ":"Nepal ","EcoFootprint_2025 ":26800000,"EcoFootprintPerCapita_2025 ":0.9,"BiocapacityByCountry_2025 ":10400000,"BiocapacityPerCapitaByCountry_2025 ":0.3,"EcologicalReserveOrDeficit_2025 ":-160},{"flagCode ":"HR ","country ":"Croatia ","EcoFootprint_2025 ":18900000,"EcoFootprintPerCapita_2025 ":4.7,"BiocapacityByCountry_2025 ":10400000,"BiocapacityPerCapitaByCountry_2025 ":2.6,"EcologicalReserveOrDeficit_2025 ":-82},{"flagCode ":"ZW ","country ":"Zimbabwe ","EcoFootprint_2025 ":19900000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":10500000,"BiocapacityPerCapitaByCountry_2025 ":0.6,"EcologicalReserveOrDeficit_2025 ":-89},{"flagCode ":"PA ","country ":"Panama ","EcoFootprint_2025 ":13900000,"EcoFootprintPerCapita_2025 ":3.2,"BiocapacityByCountry_2025 ":11300000,"BiocapacityPerCapitaByCountry_2025 ":2.6,"EcologicalReserveOrDeficit_2025 ":-23},{"flagCode ":"BE ","country ":"Belgium ","EcoFootprint_2025 ":69700000,"EcoFootprintPerCapita_2025 ":6,"BiocapacityByCountry_2025 ":11600000,"BiocapacityPerCapitaByCountry_2025 ":1,"EcologicalReserveOrDeficit_2025 ":-500},{"flagCode ":"MW ","country ":"Malawi ","EcoFootprint_2025 ":14800000,"EcoFootprintPerCapita_2025 ":0.7,"BiocapacityByCountry_2025 ":11800000,"BiocapacityPerCapitaByCountry_2025 ":0.6,"EcologicalReserveOrDeficit_2025 ":-26},{"flagCode ":"CU ","country ":"Cuba ","EcoFootprint_2025 ":19100000,"EcoFootprintPerCapita_2025 ":1.7,"BiocapacityByCountry_2025 ":11800000,"BiocapacityPerCapitaByCountry_2025 ":1.1,"EcologicalReserveOrDeficit_2025 ":-61},{"flagCode ":"YE ","country ":"Yemen ","EcoFootprint_2025 ":20800000,"EcoFootprintPerCapita_2025 ":0.6,"BiocapacityByCountry_2025 ":12300000,"BiocapacityPerCapitaByCountry_2025 ":0.4,"EcologicalReserveOrDeficit_2025 ":-69},{"flagCode ":"SO ","country ":"Somalia ","EcoFootprint_2025 ":16300000,"EcoFootprintPerCapita_2025 ":0.9,"BiocapacityByCountry_2025 ":12500000,"BiocapacityPerCapitaByCountry_2025 ":0.7,"EcologicalReserveOrDeficit_2025 ":-31},{"flagCode ":"RS ","country ":"Serbia ","EcoFootprint_2025 ":29700000,"EcoFootprintPerCapita_2025 ":4.1,"BiocapacityByCountry_2025 ":13000000,"BiocapacityPerCapitaByCountry_2025 ":1.8,"EcologicalReserveOrDeficit_2025 ":-130},{"flagCode ":"IQ ","country ":"Iraq ","EcoFootprint_2025 ":92100000,"EcoFootprintPerCapita_2025 ":2.1,"BiocapacityByCountry_2025 ":13100000,"BiocapacityPerCapitaByCountry_2025 ":0.3,"EcologicalReserveOrDeficit_2025 ":-600},{"flagCode ":"EE ","country ":"Estonia ","EcoFootprint_2025 ":11900000,"EcoFootprintPerCapita_2025 ":9,"BiocapacityByCountry_2025 ":13100000,"BiocapacityPerCapitaByCountry_2025 ":9.9,"EcologicalReserveOrDeficit_2025 ":10},{"flagCode ":"KP ","country ":"North Korea ","EcoFootprint_2025 ":30900000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":13600000,"BiocapacityPerCapitaByCountry_2025 ":0.5,"EcologicalReserveOrDeficit_2025 ":-130},{"flagCode ":"SK ","country ":"Slovakia ","EcoFootprint_2025 ":24800000,"EcoFootprintPerCapita_2025 ":4.4,"BiocapacityByCountry_2025 ":14500000,"BiocapacityPerCapitaByCountry_2025 ":2.6,"EcologicalReserveOrDeficit_2025 ":-71},{"flagCode ":"LR ","country ":"Liberia ","EcoFootprint_2025 ":6560000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":14700000,"BiocapacityPerCapitaByCountry_2025 ":2.8,"EcologicalReserveOrDeficit_2025 ":124},{"flagCode ":"TM ","country ":"Turkmenistan ","EcoFootprint_2025 ":39700000,"EcoFootprintPerCapita_2025 ":6.2,"BiocapacityByCountry_2025 ":14900000,"BiocapacityPerCapitaByCountry_2025 ":2.3,"EcologicalReserveOrDeficit_2025 ":-170},{"flagCode ":"GR ","country ":"Greece ","EcoFootprint_2025 ":38400000,"EcoFootprintPerCapita_2025 ":3.7,"BiocapacityByCountry_2025 ":15000000,"BiocapacityPerCapitaByCountry_2025 ":1.4,"EcologicalReserveOrDeficit_2025 ":-160},{"flagCode ":"GT ","country ":"Guatemala ","EcoFootprint_2025 ":37300000,"EcoFootprintPerCapita_2025 ":2.1,"BiocapacityByCountry_2025 ":15400000,"BiocapacityPerCapitaByCountry_2025 ":0.9,"EcologicalReserveOrDeficit_2025 ":null},{"flagCode ":"NA ","country ":"Namibia ","EcoFootprint_2025 ":8160000,"EcoFootprintPerCapita_2025 ":3.2,"BiocapacityByCountry_2025 ":15700000,"BiocapacityPerCapitaByCountry_2025 ":6.1,"EcologicalReserveOrDeficit_2025 ":92},{"flagCode ":"LT ","country ":"Lithuania ","EcoFootprint_2025 ":18300000,"EcoFootprintPerCapita_2025 ":6.7,"BiocapacityByCountry_2025 ":15700000,"BiocapacityPerCapitaByCountry_2025 ":5.7,"EcologicalReserveOrDeficit_2025 ":-17},{"flagCode ":"PT ","country ":"Portugal ","EcoFootprint_2025 ":44900000,"EcoFootprintPerCapita_2025 ":4.4,"BiocapacityByCountry_2025 ":15800000,"BiocapacityPerCapitaByCountry_2025 ":1.5,"EcologicalReserveOrDeficit_2025 ":-180},{"flagCode ":"NL ","country ":"Netherlands ","EcoFootprint_2025 ":62500000,"EcoFootprintPerCapita_2025 ":3.6,"BiocapacityByCountry_2025 ":16000000,"BiocapacityPerCapitaByCountry_2025 ":0.9,"EcologicalReserveOrDeficit_2025 ":-290},{"flagCode ":"NI ","country ":"Nicaragua ","EcoFootprint_2025 ":12600000,"EcoFootprintPerCapita_2025 ":1.8,"BiocapacityByCountry_2025 ":16000000,"BiocapacityPerCapitaByCountry_2025 ":2.3,"EcologicalReserveOrDeficit_2025 ":27},{"flagCode ":"IE ","country ":"Ireland ","EcoFootprint_2025 ":22400000,"EcoFootprintPerCapita_2025 ":4.5,"BiocapacityByCountry_2025 ":16400000,"BiocapacityPerCapitaByCountry_2025 ":3.3,"EcologicalReserveOrDeficit_2025 ":-37},{"flagCode ":"BF ","country ":"Burkina Faso ","EcoFootprint_2025 ":24800000,"EcoFootprintPerCapita_2025 ":1.1,"BiocapacityByCountry_2025 ":16800000,"BiocapacityPerCapitaByCountry_2025 ":0.7,"EcologicalReserveOrDeficit_2025 ":-48},{"flagCode ":"HN ","country ":"Honduras ","EcoFootprint_2025 ":18100000,"EcoFootprintPerCapita_2025 ":1.7,"BiocapacityByCountry_2025 ":17100000,"BiocapacityPerCapitaByCountry_2025 ":1.6,"EcologicalReserveOrDeficit_2025 ":-6},{"flagCode ":"MR ","country ":"Mauritania ","EcoFootprint_2025 ":12200000,"EcoFootprintPerCapita_2025 ":2.6,"BiocapacityByCountry_2025 ":17200000,"BiocapacityPerCapitaByCountry_2025 ":3.6,"EcologicalReserveOrDeficit_2025 ":41},{"flagCode ":"LV ","country ":"Latvia ","EcoFootprint_2025 ":14900000,"EcoFootprintPerCapita_2025 ":8.1,"BiocapacityByCountry_2025 ":17300000,"BiocapacityPerCapitaByCountry_2025 ":9.3,"EcologicalReserveOrDeficit_2025 ":16},{"flagCode ":"SN ","country ":"Senegal ","EcoFootprint_2025 ":27300000,"EcoFootprintPerCapita_2025 ":1.6,"BiocapacityByCountry_2025 ":17700000,"BiocapacityPerCapitaByCountry_2025 ":1,"EcologicalReserveOrDeficit_2025 ":-55},{"flagCode ":"KH ","country ":"Cambodia ","EcoFootprint_2025 ":28700000,"EcoFootprintPerCapita_2025 ":1.7,"BiocapacityByCountry_2025 ":18900000,"BiocapacityPerCapitaByCountry_2025 ":1.1,"EcologicalReserveOrDeficit_2025 ":-52},{"flagCode ":"SS ","country ":"South Sudan ","EcoFootprint_2025 ":18000000,"EcoFootprintPerCapita_2025 ":1.6,"BiocapacityByCountry_2025 ":19300000,"BiocapacityPerCapitaByCountry_2025 ":1.8,"EcologicalReserveOrDeficit_2025 ":7},{"flagCode ":"HU ","country ":"Hungary ","EcoFootprint_2025 ":34400000,"EcoFootprintPerCapita_2025 ":3.5,"BiocapacityByCountry_2025 ":20300000,"BiocapacityPerCapitaByCountry_2025 ":2,"EcologicalReserveOrDeficit_2025 ":-70},{"flagCode ":"KE ","country ":"Kenya ","EcoFootprint_2025 ":50700000,"EcoFootprintPerCapita_2025 ":0.9,"BiocapacityByCountry_2025 ":21900000,"BiocapacityPerCapitaByCountry_2025 ":0.4,"EcologicalReserveOrDeficit_2025 ":-130},{"flagCode ":"AF ","country ":"Afghanistan ","EcoFootprint_2025 ":30900000,"EcoFootprintPerCapita_2025 ":0.8,"BiocapacityByCountry_2025 ":22100000,"BiocapacityPerCapitaByCountry_2025 ":0.5,"EcologicalReserveOrDeficit_2025 ":-40},{"flagCode ":"BG ","country ":"Bulgaria ","EcoFootprint_2025 ":31100000,"EcoFootprintPerCapita_2025 ":4.6,"BiocapacityByCountry_2025 ":23700000,"BiocapacityPerCapitaByCountry_2025 ":3.5,"EcologicalReserveOrDeficit_2025 ":-31},{"flagCode ":"MA ","country ":"Morocco ","EcoFootprint_2025 ":69300000,"EcoFootprintPerCapita_2025 ":1.8,"BiocapacityByCountry_2025 ":23800000,"BiocapacityPerCapitaByCountry_2025 ":0.6,"EcologicalReserveOrDeficit_2025 ":-190},{"flagCode ":"GN ","country ":"Guinea ","EcoFootprint_2025 ":23300000,"EcoFootprintPerCapita_2025 ":null,"BiocapacityByCountry_2025 ":24100000,"BiocapacityPerCapitaByCountry_2025 ":1.7,"EcologicalReserveOrDeficit_2025 ":3},{"flagCode ":"UG ","country ":"Uganda ","EcoFootprint_2025 ":52400000,"EcoFootprintPerCapita_2025 ":1.1,"BiocapacityByCountry_2025 ":25300000,"BiocapacityPerCapitaByCountry_2025 ":0.5,"EcologicalReserveOrDeficit_2025 ":-110},{"flagCode ":"TD ","country ":"Chad ","EcoFootprint_2025 ":24600000,"EcoFootprintPerCapita_2025 ":1.4,"BiocapacityByCountry_2025 ":25300000,"BiocapacityPerCapitaByCountry_2025 ":1.4,"EcologicalReserveOrDeficit_2025 ":3},{"flagCode ":"DK ","country ":"Denmark ","EcoFootprint_2025 ":43800000,"EcoFootprintPerCapita_2025 ":7.5,"BiocapacityByCountry_2025 ":25300000,"BiocapacityPerCapitaByCountry_2025 ":4.3,"EcologicalReserveOrDeficit_2025 ":-73},{"flagCode ":"EG ","country ":"Egypt ","EcoFootprint_2025 ":160000000,"EcoFootprintPerCapita_2025 ":1.4,"BiocapacityByCountry_2025 ":25500000,"BiocapacityPerCapitaByCountry_2025 ":0.2,"EcologicalReserveOrDeficit_2025 ":-530},{"flagCode ":"UZ ","country ":"Uzbekistan ","EcoFootprint_2025 ":78300000,"EcoFootprintPerCapita_2025 ":2.3,"BiocapacityByCountry_2025 ":26000000,"BiocapacityPerCapitaByCountry_2025 ":0.8,"EcologicalReserveOrDeficit_2025 ":-200},{"flagCode ":"AT ","country ":"Austria ","EcoFootprint_2025 ":55900000,"EcoFootprintPerCapita_2025 ":6.3,"BiocapacityByCountry_2025 ":26100000,"BiocapacityPerCapitaByCountry_2025 ":2.9,"EcologicalReserveOrDeficit_2025 ":-110},{"flagCode ":"CZ ","country ":"Czechia ","EcoFootprint_2025 ":61000000,"EcoFootprintPerCapita_2025 ":5.8,"BiocapacityByCountry_2025 ":27100000,"BiocapacityPerCapitaByCountry_2025 ":2.6,"EcologicalReserveOrDeficit_2025 ":-120},{"flagCode ":"NE ","country ":"Niger ","EcoFootprint_2025 ":36100000,"EcoFootprintPerCapita_2025 ":1.4,"BiocapacityByCountry_2025 ":27200000,"BiocapacityPerCapitaByCountry_2025 ":1,"EcologicalReserveOrDeficit_2025 ":-33},{"flagCode ":"DZ ","country ":"Algeria ","EcoFootprint_2025 ":108000000,"EcoFootprintPerCapita_2025 ":2.4,"BiocapacityByCountry_2025 ":28700000,"BiocapacityPerCapitaByCountry_2025 ":0.6,"EcologicalReserveOrDeficit_2025 ":-280},{"flagCode ":"PG ","country ":"Papua New Guinea ","EcoFootprint_2025 ":12500000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":29900000,"BiocapacityPerCapitaByCountry_2025 ":2.9,"EcologicalReserveOrDeficit_2025 ":138},{"flagCode ":"BY ","country ":"Belarus ","EcoFootprint_2025 ":43800000,"EcoFootprintPerCapita_2025 ":4.6,"BiocapacityByCountry_2025 ":31700000,"BiocapacityPerCapitaByCountry_2025 ":3.3,"EcologicalReserveOrDeficit_2025 ":-38},{"flagCode ":"KR ","country ":"South Korea ","EcoFootprint_2025 ":290000000,"EcoFootprintPerCapita_2025 ":5.6,"BiocapacityByCountry_2025 ":32400000,"BiocapacityPerCapitaByCountry_2025 ":0.6,"EcologicalReserveOrDeficit_2025 ":-790},{"flagCode ":"ZM ","country ":"Zambia ","EcoFootprint_2025 ":25200000,"EcoFootprintPerCapita_2025 ":1.3,"BiocapacityByCountry_2025 ":32400000,"BiocapacityPerCapitaByCountry_2025 ":1.6,"EcologicalReserveOrDeficit_2025 ":28},{"flagCode ":"EC ","country ":"Ecuador ","EcoFootprint_2025 ":33400000,"EcoFootprintPerCapita_2025 ":1.9,"BiocapacityByCountry_2025 ":33400000,"BiocapacityPerCapitaByCountry_2025 ":1.9,"EcologicalReserveOrDeficit_2025 ":null},{"flagCode ":"ML ","country ":"Mali ","EcoFootprint_2025 ":28900000,"EcoFootprintPerCapita_2025 ":1.3,"BiocapacityByCountry_2025 ":33500000,"BiocapacityPerCapitaByCountry_2025 ":1.5,"EcologicalReserveOrDeficit_2025 ":null},{"flagCode ":"GH ","country ":"Ghana ","EcoFootprint_2025 ":69400000,"EcoFootprintPerCapita_2025 ":2.1,"BiocapacityByCountry_2025 ":35600000,"BiocapacityPerCapitaByCountry_2025 ":1.1,"EcologicalReserveOrDeficit_2025 ":-95},{"flagCode ":"CI ","country ":"Ivory Coast ","EcoFootprint_2025 ":32600000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":36300000,"BiocapacityPerCapitaByCountry_2025 ":1.3,"EcologicalReserveOrDeficit_2025 ":16},{"flagCode ":"NO ","country ":"Norway ","EcoFootprint_2025 ":24400000,"EcoFootprintPerCapita_2025 ":4.5,"BiocapacityByCountry_2025 ":37500000,"BiocapacityPerCapitaByCountry_2025 ":6.9,"EcologicalReserveOrDeficit_2025 ":53},{"flagCode ":"CF ","country ":"Central African Republic ","EcoFootprint_2025 ":7900000,"EcoFootprintPerCapita_2025 ":1.4,"BiocapacityByCountry_2025 ":38000000,"BiocapacityPerCapitaByCountry_2025 ":6.8,"EcologicalReserveOrDeficit_2025 ":381},{"flagCode ":"BD ","country ":"Bangladesh ","EcoFootprint_2025 ":129000000,"EcoFootprintPerCapita_2025 ":0.8,"BiocapacityByCountry_2025 ":39000000,"BiocapacityPerCapitaByCountry_2025 ":0.2,"EcologicalReserveOrDeficit_2025 ":-230},{"flagCode ":"CM ","country ":"Cameroon ","EcoFootprint_2025 ":31900000,"EcoFootprintPerCapita_2025 ":1.1,"BiocapacityByCountry_2025 ":40700000,"BiocapacityPerCapitaByCountry_2025 ":1.5,"EcologicalReserveOrDeficit_2025 ":28},{"flagCode ":"GA ","country ":"Gabon ","EcoFootprint_2025 ":5400000,"EcoFootprintPerCapita_2025 ":2.3,"BiocapacityByCountry_2025 ":41200000,"BiocapacityPerCapitaByCountry_2025 ":17.2,"EcologicalReserveOrDeficit_2025 ":663},{"flagCode ":"NZ ","country ":"New Zealand ","EcoFootprint_2025 ":29200000,"EcoFootprintPerCapita_2025 ":5.6,"BiocapacityByCountry_2025 ":44000000,"BiocapacityPerCapitaByCountry_2025 ":8.5,"EcologicalReserveOrDeficit_2025 ":51},{"flagCode ":"PH ","country ":"Philippines ","EcoFootprint_2025 ":147000000,"EcoFootprintPerCapita_2025 ":1.3,"BiocapacityByCountry_2025 ":44400000,"BiocapacityPerCapitaByCountry_2025 ":0.4,"EcologicalReserveOrDeficit_2025 ":-230},{"flagCode ":"MN ","country ":"Mongolia ","EcoFootprint_2025 ":29800000,"EcoFootprintPerCapita_2025 ":8.8,"BiocapacityByCountry_2025 ":45800000,"BiocapacityPerCapitaByCountry_2025 ":13.5,"EcologicalReserveOrDeficit_2025 ":54},{"flagCode ":"MZ ","country ":"Mozambique ","EcoFootprint_2025 ":27100000,"EcoFootprintPerCapita_2025 ":0.8,"BiocapacityByCountry_2025 ":46900000,"BiocapacityPerCapitaByCountry_2025 ":1.4,"EcologicalReserveOrDeficit_2025 ":73},{"flagCode ":"CG ","country ":"Republic of the Congo ","EcoFootprint_2025 ":7140000,"EcoFootprintPerCapita_2025 ":1.2,"BiocapacityByCountry_2025 ":47300000,"BiocapacityPerCapitaByCountry_2025 ":7.9,"EcologicalReserveOrDeficit_2025 ":562},{"flagCode ":"AO ","country ":"Angola ","EcoFootprint_2025 ":29200000,"EcoFootprintPerCapita_2025 ":0.8,"BiocapacityByCountry_2025 ":50300000,"BiocapacityPerCapitaByCountry_2025 ":1.4,"EcologicalReserveOrDeficit_2025 ":72},{"flagCode ":"RO ","country ":"Romania ","EcoFootprint_2025 ":66500000,"EcoFootprintPerCapita_2025 ":3.4,"BiocapacityByCountry_2025 ":50600000,"BiocapacityPerCapitaByCountry_2025 ":2.6,"EcologicalReserveOrDeficit_2025 ":-32},{"flagCode ":"TZ ","country ":"Tanzania ","EcoFootprint_2025 ":67800000,"EcoFootprintPerCapita_2025 ":1,"BiocapacityByCountry_2025 ":52800000,"BiocapacityPerCapitaByCountry_2025 ":0.8,"EcologicalReserveOrDeficit_2025 ":-28},{"flagCode ":"IT ","country ":"Italy ","EcoFootprint_2025 ":269000000,"EcoFootprintPerCapita_2025 ":4.5,"BiocapacityByCountry_2025 ":54900000,"BiocapacityPerCapitaByCountry_2025 ":0.9,"EcologicalReserveOrDeficit_2025 ":-390},{"flagCode ":"PY ","country ":"Paraguay ","EcoFootprint_2025 ":14800000,"EcoFootprintPerCapita_2025 ":2.2,"BiocapacityByCountry_2025 ":55400000,"BiocapacityPerCapitaByCountry_2025 ":8.2,"EcologicalReserveOrDeficit_2025 ":274},{"flagCode ":"MG ","country ":"Madagascar ","EcoFootprint_2025 ":25300000,"EcoFootprintPerCapita_2025 ":0.9,"BiocapacityByCountry_2025 ":58700000,"BiocapacityPerCapitaByCountry_2025 ":2,"EcologicalReserveOrDeficit_2025 ":132},{"flagCode ":"ET ","country ":"Ethiopia ","EcoFootprint_2025 ":115000000,"EcoFootprintPerCapita_2025 ":0.9,"BiocapacityByCountry_2025 ":59300000,"BiocapacityPerCapitaByCountry_2025 ":0.5,"EcologicalReserveOrDeficit_2025 ":-94},{"flagCode ":"IR ","country ":"Iran ","EcoFootprint_2025 ":308000000,"EcoFootprintPerCapita_2025 ":3.5,"BiocapacityByCountry_2025 ":61200000,"BiocapacityPerCapitaByCountry_2025 ":0.7,"EcologicalReserveOrDeficit_2025 ":-400},{"flagCode ":"CL ","country ":"Chile ","EcoFootprint_2025 ":77100000,"EcoFootprintPerCapita_2025 ":3.9,"BiocapacityByCountry_2025 ":62000000,"BiocapacityPerCapitaByCountry_2025 ":3.2,"EcologicalReserveOrDeficit_2025 ":-24},{"flagCode ":"ES ","country ":"Spain ","EcoFootprint_2025 ":173000000,"EcoFootprintPerCapita_2025 ":3.6,"BiocapacityByCountry_2025 ":64200000,"BiocapacityPerCapitaByCountry_2025 ":1.3,"EcologicalReserveOrDeficit_2025 ":-170},{"flagCode ":"FI ","country ":"Finland ","EcoFootprint_2025 ":35700000,"EcoFootprintPerCapita_2025 ":6.4,"BiocapacityByCountry_2025 ":66700000,"BiocapacityPerCapitaByCountry_2025 ":12,"EcologicalReserveOrDeficit_2025 ":87},{"flagCode ":"MY ","country ":"Malaysia ","EcoFootprint_2025 ":142000000,"EcoFootprintPerCapita_2025 ":4.2,"BiocapacityByCountry_2025 ":68700000,"BiocapacityPerCapitaByCountry_2025 ":2,"EcologicalReserveOrDeficit_2025 ":-110},{"flagCode ":"ZA ","country ":"South Africa ","EcoFootprint_2025 ":182000000,"EcoFootprintPerCapita_2025 ":3,"BiocapacityByCountry_2025 ":71500000,"BiocapacityPerCapitaByCountry_2025 ":1.2,"EcologicalReserveOrDeficit_2025 ":-150},{"flagCode ":"MM ","country ":"Myanmar ","EcoFootprint_2025 ":60600000,"EcoFootprintPerCapita_2025 ":1.1,"BiocapacityByCountry_2025 ":73700000,"BiocapacityPerCapitaByCountry_2025 ":1.4,"EcologicalReserveOrDeficit_2025 ":22},{"flagCode ":"SD ","country ":"Sudan ","EcoFootprint_2025 ":73900000,"EcoFootprintPerCapita_2025 ":1.6,"BiocapacityByCountry_2025 ":75400000,"BiocapacityPerCapitaByCountry_2025 ":1.6,"EcologicalReserveOrDeficit_2025 ":2},{"flagCode ":"JP ","country ":"Japan ","EcoFootprint_2025 ":529000000,"EcoFootprintPerCapita_2025 ":4.3,"BiocapacityByCountry_2025 ":76900000,"BiocapacityPerCapitaByCountry_2025 ":0.6,"EcologicalReserveOrDeficit_2025 ":-590},{"flagCode ":"GB ","country ":"United Kingdom ","EcoFootprint_2025 ":270000000,"EcoFootprintPerCapita_2025 ":4,"BiocapacityByCountry_2025 ":77100000,"BiocapacityPerCapitaByCountry_2025 ":1.1,"EcologicalReserveOrDeficit_2025 ":-250},{"flagCode ":"VN ","country ":"Vietnam ","EcoFootprint_2025 ":255000000,"EcoFootprintPerCapita_2025 ":2.6,"BiocapacityByCountry_2025 ":80100000,"BiocapacityPerCapitaByCountry_2025 ":0.8,"EcologicalReserveOrDeficit_2025 ":-220},{"flagCode ":"TH ","country ":"Thailand ","EcoFootprint_2025 ":169000000,"EcoFootprintPerCapita_2025 ":2.4,"BiocapacityByCountry_2025 ":81900000,"BiocapacityPerCapitaByCountry_2025 ":1.1,"EcologicalReserveOrDeficit_2025 ":-110},{"flagCode ":"PL ","country ":"Poland ","EcoFootprint_2025 ":195000000,"EcoFootprintPerCapita_2025 ":4.9,"BiocapacityByCountry_2025 ":81900000,"BiocapacityPerCapitaByCountry_2025 ":2.1,"EcologicalReserveOrDeficit_2025 ":-140},{"flagCode ":"PK ","country ":"Pakistan ","EcoFootprint_2025 ":188000000,"EcoFootprintPerCapita_2025 ":0.8,"BiocapacityByCountry_2025 ":82300000,"BiocapacityPerCapitaByCountry_2025 ":0.3,"EcologicalReserveOrDeficit_2025 ":-130},{"flagCode ":"VE ","country ":"Venezuela ","EcoFootprint_2025 ":56300000,"EcoFootprintPerCapita_2025 ":2,"BiocapacityByCountry_2025 ":83800000,"BiocapacityPerCapitaByCountry_2025 ":3,"EcologicalReserveOrDeficit_2025 ":49},{"flagCode ":"SE ","country ":"Sweden ","EcoFootprint_2025 ":63900000,"EcoFootprintPerCapita_2025 ":6.1,"BiocapacityByCountry_2025 ":91900000,"BiocapacityPerCapitaByCountry_2025 ":8.7,"EcologicalReserveOrDeficit_2025 ":44},{"flagCode ":"NG ","country ":"Nigeria ","EcoFootprint_2025 ":181000000,"EcoFootprintPerCapita_2025 ":0.8,"BiocapacityByCountry_2025 ":95800000,"BiocapacityPerCapitaByCountry_2025 ":0.4,"EcologicalReserveOrDeficit_2025 ":-89},{"flagCode ":"PE ","country ":"Peru ","EcoFootprint_2025 ":84100000,"EcoFootprintPerCapita_2025 ":2.5,"BiocapacityByCountry_2025 ":124000000,"BiocapacityPerCapitaByCountry_2025 ":3.7,"EcologicalReserveOrDeficit_2025 ":48},{"flagCode ":"UA ","country ":"Ukraine ","EcoFootprint_2025 ":126000000,"EcoFootprintPerCapita_2025 ":3.2,"BiocapacityByCountry_2025 ":129000000,"BiocapacityPerCapitaByCountry_2025 ":3.2,"EcologicalReserveOrDeficit_2025 ":2},{"flagCode ":"TR ","country ":"Turkey ","EcoFootprint_2025 ":298000000,"EcoFootprintPerCapita_2025 ":3.5,"BiocapacityByCountry_2025 ":133000000,"BiocapacityPerCapitaByCountry_2025 ":1.6,"EcologicalReserveOrDeficit_2025 ":-120},{"flagCode ":"DE ","country ":"Germany ","EcoFootprint_2025 ":384000000,"EcoFootprintPerCapita_2025 ":4.6,"BiocapacityByCountry_2025 ":136000000,"BiocapacityPerCapitaByCountry_2025 ":1.6,"EcologicalReserveOrDeficit_2025 ":-180},{"flagCode ":"MX ","country ":"Mexico ","EcoFootprint_2025 ":329000000,"EcoFootprintPerCapita_2025 ":2.6,"BiocapacityByCountry_2025 ":154000000,"BiocapacityPerCapitaByCountry_2025 ":1.2,"EcologicalReserveOrDeficit_2025 ":-110},{"flagCode ":"BO ","country ":"Bolivia ","EcoFootprint_2025 ":34200000,"EcoFootprintPerCapita_2025 ":2.8,"BiocapacityByCountry_2025 ":165000000,"BiocapacityPerCapitaByCountry_2025 ":13.5,"EcologicalReserveOrDeficit_2025 ":383},{"flagCode ":"FR ","country ":"France ","EcoFootprint_2025 ":327000000,"EcoFootprintPerCapita_2025 ":5.1,"BiocapacityByCountry_2025 ":167000000,"BiocapacityPerCapitaByCountry_2025 ":2.6,"EcologicalReserveOrDeficit_2025 ":-96},{"flagCode ":"CO ","country ":"Colombia ","EcoFootprint_2025 ":105000000,"EcoFootprintPerCapita_2025 ":2,"BiocapacityByCountry_2025 ":172000000,"BiocapacityPerCapitaByCountry_2025 ":3.3,"EcologicalReserveOrDeficit_2025 ":64},{"flagCode ":"CD ","country ":"DR Congo ","EcoFootprint_2025 ":73400000,"EcoFootprintPerCapita_2025 ":0.7,"BiocapacityByCountry_2025 ":186000000,"BiocapacityPerCapitaByCountry_2025 ":1.9,"EcologicalReserveOrDeficit_2025 ":153},{"flagCode ":"AR ","country ":"Argentina ","EcoFootprint_2025 ":147000000,"EcoFootprintPerCapita_2025 ":3.2,"BiocapacityByCountry_2025 ":265000000,"BiocapacityPerCapitaByCountry_2025 ":5.8,"EcologicalReserveOrDeficit_2025 ":80},{"flagCode ":"AU ","country ":"Australia ","EcoFootprint_2025 ":191000000,"EcoFootprintPerCapita_2025 ":7.3,"BiocapacityByCountry_2025 ":321000000,"BiocapacityPerCapitaByCountry_2025 ":12.3,"EcologicalReserveOrDeficit_2025 ":68},{"flagCode ":"ID ","country ":"Indonesia ","EcoFootprint_2025 ":497000000,"EcoFootprintPerCapita_2025 ":1.8,"BiocapacityByCountry_2025 ":336000000,"BiocapacityPerCapitaByCountry_2025 ":1.2,"EcologicalReserveOrDeficit_2025 ":-48},{"flagCode ":"IN ","country ":"India ","EcoFootprint_2025 ":1570000000,"EcoFootprintPerCapita_2025 ":1.1,"BiocapacityByCountry_2025 ":467000000,"BiocapacityPerCapitaByCountry_2025 ":0.3,"EcologicalReserveOrDeficit_2025 ":-240},{"flagCode ":"CA ","country ":"Canada ","EcoFootprint_2025 ":321000000,"EcoFootprintPerCapita_2025 ":8.4,"BiocapacityByCountry_2025 ":556000000,"BiocapacityPerCapitaByCountry_2025 ":14.4,"EcologicalReserveOrDeficit_2025 ":73},{"flagCode ":"CN ","country ":"China ","EcoFootprint_2025 ":5250000000,"EcoFootprintPerCapita_2025 ":3.6,"BiocapacityByCountry_2025 ":1050000000,"BiocapacityPerCapitaByCountry_2025 ":0.7,"EcologicalReserveOrDeficit_2025 ":-400},{"flagCode ":"RU ","country ":"Russia ","EcoFootprint_2025 ":878000000,"EcoFootprintPerCapita_2025 ":6.1,"BiocapacityByCountry_2025 ":1090000000,"BiocapacityPerCapitaByCountry_2025 ":7.5,"EcologicalReserveOrDeficit_2025 ":24},{"flagCode ":"US ","country ":"United States ","EcoFootprint_2025 ":2670000000,"EcoFootprintPerCapita_2025 ":7.9,"BiocapacityByCountry_2025 ":1280000000,"BiocapacityPerCapitaByCountry_2025 ":3.8,"EcologicalReserveOrDeficit_2025 ":-110},{"flagCode ":"BR ","country ":"Brazil ","EcoFootprint_2025 ":520000000,"EcoFootprintPerCapita_2025 ":2.4,"BiocapacityByCountry_2025 ":1750000000,"BiocapacityPerCapitaByCountry_2025 ":8.1,"EcologicalReserveOrDeficit_2025 ":237},{"flagCode ":"GW ","country ":"Guinea-Bissau ","EcoFootprint_2025 ":null,"EcoFootprintPerCapita_2025 ":1.1,"BiocapacityByCountry_2025 ":null,"BiocapacityPerCapitaByCountry_2025 ":2.2,"EcologicalReserveOrDeficit_2025 ":94},{"flagCode ":"GF ","country ":"French Guiana ","EcoFootprint_2025 ":2410000,"EcoFootprintPerCapita_2025 ":null,"BiocapacityByCountry_2025 ":null,"BiocapacityPerCapitaByCountry_2025 ":null,"EcologicalReserveOrDeficit_2025 ":null},{"flagCode ":"KZ ","country ":"Kazakhstan ","EcoFootprint_2025 ":120000000,"EcoFootprintPerCapita_2025 ":6.5,"BiocapacityByCountry_2025 ":140000000,"BiocapacityPerCapitaByCountry_2025 ":8.0,"EcologicalReserveOrDeficit_2025 ":20}];
+
+    let countries = RAW_COUNTRIES.map(cleanCountryData);
+    let currentPage = 1, rowsPerPage = 10, currentData = [...countries], sortCol = 'name', sortAsc = true;
+
+    function updateKazakhstanProfile() {
+      const kz = countries.find(c => c.flagCode === 'KZ');
+      if (kz) {
+        document.getElementById('kz-footprint').textContent = kz.EcoFootprintPerCapita_2025?.toFixed(1) || '–';
+        document.getElementById('kz-biocap').textContent = kz.BiocapacityPerCapitaByCountry_2025?.toFixed(1) || '–';
+        const reserve = kz.EcologicalReserveOrDeficit_2025;
+        document.getElementById('kz-reserve').textContent = reserve !== null ? (reserve > 0 ? `+${reserve}%` : `${reserve}%`) : '–';
+        document.getElementById('kz-total-ef').textContent = kz.EcoFootprint_2025 ? (kz.EcoFootprint_2025 / 1000000).toFixed(0) : '–';
+        document.getElementById('kz-total-bc').textContent = kz.BiocapacityByCountry_2025 ? (kz.BiocapacityByCountry_2025 / 1000000).toFixed(0) : '–';
+      }
+    }
+
+    function getBalance(c) {
+      const r = c.EcologicalReserveOrDeficit_2025;
+      if (r === null || r === undefined) return { cls: '', text: '–' };
+      if (r > 0) return { cls: 'reserve', text: `🟢 +${r}%` };
+      return { cls: 'deficit', text: `🔴 ${r}%` };
+    }
+
+    function renderTable(data, page = 1) {
+      const start = (page - 1) * rowsPerPage, end = start + rowsPerPage, slice = data.slice(start, end),
+        tbody = document.getElementById('countryBody');
+      tbody.innerHTML = '';
+      slice.forEach(c => {
+        const b = getBalance(c), isKZ = c.flagCode === 'KZ',
+          fp = c.EcoFootprintPerCapita_2025 !== null ? c.EcoFootprintPerCapita_2025.toFixed(1) : '–',
+          bc = c.BiocapacityPerCapitaByCountry_2025 !== null ? c.BiocapacityPerCapitaByCountry_2025.toFixed(1) : '–',
+          pop = c.population !== null ? c.population : '–';
+        const tr = document.createElement('tr');
+        if (isKZ) tr.classList.add('highlight');
+        tr.innerHTML = `<td>🇨🇳 ${c.country}</td><td>${c.region}</td><td><strong>${fp}</strong></td><td>${bc}</td><td class="${b.cls}">${b.text}</td><td>${pop}</td>`;
+        tbody.appendChild(tr);
+      });
+      const pages = Math.ceil(data.length / rowsPerPage), pag = document.getElementById('pagination');
+      pag.innerHTML = '';
+      for (let i = 1; i <= pages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i; btn.className = i === page ? 'active' : '';
+        btn.onclick = () => { renderTable(data, i); currentPage = i; };
+        pag.appendChild(btn);
+      }
+    }
+
+    function filterCountries() {
+      const search = document.getElementById('countrySearch').value.toLowerCase(),
+        region = document.getElementById('regionFilter').value;
+      let filtered = countries.filter(c => c.country?.toLowerCase().includes(search));
+      if (region) filtered = filtered.filter(c => c.region === region);
+      filtered.sort((a, b) => {
+        let va, vb;
+        if (sortCol === 'name') { va = a.country; vb = b.country; return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va); }
+        if (sortCol === 'region') { va = a.region; vb = b.region; return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va); }
+        if (sortCol === 'footprint') { va = a.EcoFootprintPerCapita_2025 ?? -999; vb = b.EcoFootprintPerCapita_2025 ?? -999; return sortAsc ? va - vb : vb - va; }
+        if (sortCol === 'biocap') { va = a.BiocapacityPerCapitaByCountry_2025 ?? -999; vb = b.BiocapacityPerCapitaByCountry_2025 ?? -999; return sortAsc ? va - vb : vb - va; }
+        if (sortCol === 'balance') { va = a.EcologicalReserveOrDeficit_2025 ?? -9999; vb = b.EcologicalReserveOrDeficit_2025 ?? -9999; return sortAsc ? va - vb : vb - va; }
+        return 0;
+      });
+      currentData = filtered; currentPage = 1; renderTable(filtered, 1);
+    }
+
+    function sortTable(col) {
+      if (sortCol === col) sortAsc = !sortAsc; else { sortCol = col; sortAsc = true; }
+      filterCountries();
+    }
+
+    function exportCountries() {
+      let csv = 'Ел,Аймақ,ЖанБасына_ЭІ,Биосыйымдылық,Статус,Халық_млн,Жалпы_ЭІ_млн,Жалпы_Био_млн\n';
+      currentData.forEach(c => {
+        const b = getBalance(c),
+          fp = c.EcoFootprintPerCapita_2025 ?? '',
+          bc = c.BiocapacityPerCapitaByCountry_2025 ?? '',
+          totalEf = c.EcoFootprint_2025 ? (c.EcoFootprint_2025 / 1000000).toFixed(0) : '',
+          totalBc = c.BiocapacityByCountry_2025 ? (c.BiocapacityByCountry_2025 / 1000000).toFixed(0) : '';
+        csv += `${c.country},${c.region},${fp},${bc},${b.text},${c.population ?? ''},${totalEf},${totalBc}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }),
+        link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'ecological_footprint_2025.csv';
+      link.click();
+    }
+
+    function exportKZData() {
+      const kz = countries.find(c => c.flagCode === 'KZ'), b = getBalance(kz);
+      const data = `Қазақстан экологиялық деректері (2025)\n================================\nЖан басына ЭІ: ${kz?.EcoFootprintPerCapita_2025 ?? '–'} гга\nБиосыйымдылық: ${kz?.BiocapacityPerCapitaByCountry_2025 ?? '–'} гга\nСтатус: ${b.text}\nЖалпы ЭІ: ${kz?.EcoFootprint_2025 ? (kz.EcoFootprint_2025/1000000).toFixed(0) : '–'} млн гга\nЖалпы биосыйымдылық: ${kz?.BiocapacityByCountry_2025 ? (kz.BiocapacityByCountry_2025/1000000).toFixed(0) : '–'} млн гга\nХалық: ${kz?.population ?? '–'} млн\nЖер аумағы: 272 млн га\n2030 мақсаты: 4.0 гга/адам`;
+      const blob = new Blob([data], { type: 'text/plain;charset=utf-8;' }),
+        link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'kazakhstan_ecological_data.txt';
+      link.click();
+    }
+
+    function renderTrendChart() {
+      const data = [{ y: '1961', ef: 7, bc: 3.13 }, { y: '1975', ef: 10.2, bc: 2.8 }, { y: '1990', ef: 14.8, bc: 2.2 }, { y: '2000', ef: 17.5, bc: 1.9 }, { y: '2010', ef: 19.8, bc: 1.75 }, { y: '2014', ef: 20.6, bc: 1.68 }, { y: '2024', ef: 20.6, bc: 1.68 }],
+        maxEf = 22, maxBc = 3.5, chart = document.getElementById('trendChart');
+      chart.innerHTML = '';
+      data.forEach(d => {
+        const bar = document.createElement('div');
+        bar.className = 'trend-bar';
+        bar.style.height = (d.ef / maxEf * 100) + '%';
+        bar.setAttribute('data-year', d.y);
+        bar.title = `ЭІ: ${d.ef} млрд гга`;
+        chart.appendChild(bar);
+      });
+    }
+
+    document.querySelectorAll('.nav-links a').forEach(l => l.addEventListener('click', function (e) {
+      e.preventDefault(); document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      this.classList.add('active'); document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    }));
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Counter.init();
+      renderTrendChart();
+      updateKazakhstanProfile();
+      filterCountries();
+      console.log('🌿 Экологиялық із v5.0 — нақты деректермен, түсінікті түсініктемелермен жүктелді');
+    });
+  </script>
+</body>
+</html>
